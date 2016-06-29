@@ -1,0 +1,5153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
+    <extensions>
+        <entry key="management_network" type="String">flat</entry>
+    </extensions>
+    <node name="DISA" type="SIMPLE" subtype="IOSv" location="695,145">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 15:25:34 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DISA
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.111 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description &lt;== PAFB-C00-PR-01 ==&gt;
+ ip address 151.2.220.13 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description &lt;== CMAFS-C00-PR-01 ==&gt;
+ ip address 151.2.220.17 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description &lt;== EADS-C00-PR-01 ==&gt;
+ ip address 151.2.220.5 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ description &lt;== WADS-C00-PR-01 ==&gt;
+ ip address 151.2.220.9 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/5
+ description &lt;== CONR-C00-PR-01 ==&gt;
+ ip address 151.2.220.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/6
+ ip address 151.2.220.21 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/7
+ ip address 10.0.0.17 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 27062
+ bgp log-neighbor-changes
+ network 0.0.0.0
+ network 199.123.5.0
+ neighbor 10.0.0.18 remote-as 300
+ neighbor 151.2.220.2 remote-as 65001
+ neighbor 151.2.220.2 description &lt;== Connection to CONR-OR-01 ==&gt;
+ neighbor 151.2.220.2 prefix-list DENY-ALL out
+ neighbor 151.2.220.6 remote-as 65005
+ neighbor 151.2.220.6 description &lt;== Connection to EADS ==&gt;
+ neighbor 151.2.220.6 prefix-list DENY-ALL out
+ neighbor 151.2.220.10 remote-as 65009
+ neighbor 151.2.220.10 description &lt;== Connection to WADS ==&gt;
+ neighbor 151.2.220.10 prefix-list DENY-ALL out
+ neighbor 151.2.220.14 remote-as 27058
+ neighbor 151.2.220.14 description &lt;== Connection to PAFB ==&gt;
+ neighbor 151.2.220.14 prefix-list DENY-ALL out
+ neighbor 151.2.220.18 remote-as 27071
+ neighbor 151.2.220.18 description &lt;== Connection to CMAF ==&gt;  
+ neighbor 151.2.220.18 prefix-list DENY-ALL out
+ neighbor 151.2.220.22 remote-as 65001
+ neighbor 151.2.220.22 description &lt;== Connection to CONR-OR-02 ==&gt;
+ neighbor 151.2.220.22 prefix-list DENY-ALL out
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.0.0.18
+ip route 199.123.5.0 255.255.255.0 Null0
+!
+!
+ip prefix-list DENY-ALL seq 5 permit 0.0.0.0/0
+ip prefix-list DENY-ALL seq 10 permit 199.123.5.0/24
+ip prefix-list DENY-ALL seq 15 deny 0.0.0.0/0 le 32
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+        <interface id="4" name="GigabitEthernet0/5"/>
+        <interface id="5" name="GigabitEthernet0/6"/>
+        <interface id="6" name="GigabitEthernet0/7"/>
+    </node>
+    <node name="L3VPN" type="SIMPLE" subtype="IOSv" location="692,641">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 12:02:40 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname L3VPN
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.109 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description &lt;== PAFB-C00-CR-01 ==&gt;
+ ip address 29.2.4.30 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description &lt;== PAFB-C00-CR-02 ==&gt;
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description &lt;== CMAF-C00-CR-01 ==&gt;
+ ip address 29.2.191.10 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ description &lt;== CMAF-C00-CR-02 ==&gt;
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/5
+ description &lt;== EADS-C00-CR-01 ==&gt;
+ ip address 29.2.106.10 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/6
+ description &lt;== EADS-C00-CR-02 ==&gt;
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/7
+ description &lt;== WADS-C00-CR-01 ==&gt;
+ ip address 29.2.80.10 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/8
+ description &lt;== WADS-C00-CR-02 ==&gt;
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/9
+ description &lt;== CONR-C00-CR-01 ==&gt;
+ ip address 29.2.132.10 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/10
+ description &lt;== CONR-C00-CR-02 ==&gt;
+ ip address 29.2.132.14 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+        <interface id="4" name="GigabitEthernet0/5"/>
+        <interface id="5" name="GigabitEthernet0/6"/>
+        <interface id="6" name="GigabitEthernet0/7"/>
+        <interface id="7" name="GigabitEthernet0/8"/>
+        <interface id="8" name="GigabitEthernet0/9"/>
+        <interface id="9" name="GigabitEthernet0/10"/>
+    </node>
+    <node name="PAFB-C00-PR-01" type="SIMPLE" subtype="IOSv" location="423,244">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 20:40:13 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname PAFB-C00-PR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 29.2.221.254 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.105 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 151.2.220.14 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.221.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ network 29.2.221.0 0.0.0.3 area 0
+ network 29.2.221.254 0.0.0.0 area 0
+ default-information originate always
+!
+router bgp 27058
+ bgp log-neighbor-changes
+ redistribute ospf 201
+ neighbor 29.2.221.241 remote-as 27058
+ neighbor 29.2.221.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.221.241 timers 10 30
+ neighbor 29.2.221.241 next-hop-self
+ neighbor 29.2.221.241 send-community
+ neighbor 29.2.221.241 soft-reconfiguration inbound
+ neighbor 29.2.221.242 remote-as 27058
+ neighbor 29.2.221.242 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.221.242 timers 10 30
+ neighbor 29.2.221.242 next-hop-self
+ neighbor 29.2.221.242 send-community
+ neighbor 29.2.221.242 soft-reconfiguration inbound
+ neighbor 151.2.220.13 remote-as 27062
+ neighbor 151.2.220.13 description &lt;== Connection to DISA ==&gt;
+ neighbor 151.2.220.13 route-map PAFB-DEFAULT in
+ neighbor 151.2.220.13 route-map 7JXR_Primary out
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+!
+no ip http server
+no ip http secure-server
+ip default-network 199.123.5.0
+!
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+ip prefix-list PRIMARY-ALLOCATION seq 5 permit 29.2.221.0/24
+!
+ip prefix-list SECONDARY-ALLOCATIONS seq 5 permit 29.2.191.0/24
+ip prefix-list SECONDARY-ALLOCATIONS seq 10 permit 29.2.106.0/24
+ip prefix-list SECONDARY-ALLOCATIONS seq 15 permit 29.2.80.0/24
+ip prefix-list SECONDARY-ALLOCATIONS seq 20 permit 29.2.132.0/24
+!
+route-map 7JXR_Primary permit 10
+ match ip address prefix-list PRIMARY-ALLOCATION
+ set as-path prepend 27058
+!
+route-map 7JXR_Primary permit 20
+ match ip address prefix-list SECONDARY-ALLOCATIONS
+ set as-path prepend 27058 27058
+!
+route-map PAFB-DEFAULT permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ set community 500:0
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CMAF-C00-PR-01" type="SIMPLE" subtype="IOSv" location="173,244">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 20:38:52 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CMAF-C00-PR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 29.2.191.254 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.127 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 151.2.220.18 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.191.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ network 29.2.191.0 0.0.0.3 area 0
+ network 29.2.191.254 0.0.0.0 area 0
+ default-information originate always
+!
+router bgp 27071
+ bgp log-neighbor-changes
+ bgp default local-preference 500
+ redistribute ospf 201
+ neighbor 29.2.191.241 remote-as 27071
+ neighbor 29.2.191.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.191.241 update-source Loopback0
+ neighbor 29.2.191.241 next-hop-self
+ neighbor 29.2.191.242 remote-as 27071
+ neighbor 29.2.191.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.191.242 next-hop-self
+ neighbor 151.2.220.17 remote-as 27062
+ neighbor 151.2.220.17 description &lt;== Connection to DISA ==&gt;
+ neighbor 151.2.220.17 route-map CMAF-DEFAULT in
+ neighbor 151.2.220.17 route-map 7JXR_Primary out
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+!
+no ip http server
+no ip http secure-server
+ip default-network 199.123.5.0
+ip route 29.2.191.241 255.255.255.255 29.2.191.1 name CMAF-CR-01-L0
+ip route 29.2.191.242 255.255.255.255 29.2.191.1 name CMAF-CR-02-L0
+!
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+ip prefix-list PRIMARY-ALLOCATION seq 5 permit 29.2.191.0/24
+!
+ip prefix-list SECONDARY-ALLOCATIONS seq 5 permit 29.2.221.0/24
+ip prefix-list SECONDARY-ALLOCATIONS seq 10 permit 29.2.106.0/24
+ip prefix-list SECONDARY-ALLOCATIONS seq 15 permit 29.2.80.0/24
+ip prefix-list SECONDARY-ALLOCATIONS seq 20 permit 29.2.132.0/24
+!
+route-map 7JXR_Primary permit 10
+ match ip address prefix-list PRIMARY-ALLOCATION
+ set as-path prepend 27071
+!
+route-map 7JXR_Primary permit 20
+ match ip address prefix-list SECONDARY-ALLOCATIONS
+ set as-path prepend 27071 27071 27071
+!
+route-map CMAF-DEFAULT permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ set community 400:0
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="EADS-C00-PR-01" type="SIMPLE" subtype="IOSv" location="637,244">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 23:23:52 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname EADS-C00-PR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 29.2.106.254 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.121 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 151.2.220.6 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.106.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ network 29.2.106.0 0.0.0.3 area 0
+ network 29.2.106.254 0.0.0.0 area 0
+ default-information originate
+!
+router bgp 65005
+ bgp log-neighbor-changes
+ redistribute ospf 201 route-map map_default_only
+ neighbor 29.2.106.241 remote-as 65005
+ neighbor 29.2.106.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.106.241 timers 10 30
+ neighbor 29.2.106.241 send-community
+ neighbor 29.2.106.241 soft-reconfiguration inbound
+ neighbor 29.2.106.242 remote-as 65005
+ neighbor 29.2.106.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.106.242 timers 10 30
+ neighbor 29.2.106.242 send-community
+ neighbor 29.2.106.242 soft-reconfiguration inbound
+ neighbor 151.2.220.5 remote-as 27062
+ neighbor 151.2.220.5 description &lt;== Connection to DISA ==&gt;
+ neighbor 151.2.220.5 prefix-list EADS-OUT out
+ neighbor 151.2.220.5 route-map EADS-DEFAULT in
+ neighbor 151.2.220.5 route-map 7JXR_Primary out
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 151.2.220.5
+!
+ip access-list standard acl_default_only
+ permit 0.0.0.0
+!
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+ip prefix-list EADS-OUT seq 5 permit 29.2.106.0/24
+!
+ip prefix-list PRIMARY-ALLOCATION seq 5 permit 29.2.106.0/24
+!
+route-map map_default_only permit 10
+ match ip address acl_default_only
+ set local-preference 500
+!
+route-map 7JXR_Primary permit 10
+ match ip address prefix-list PRIMARY-ALLOCATION
+ set as-path prepend 65005
+!
+route-map EADS-DEFAULT permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ set community 300:0
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="WADS-C00-PR-01" type="SIMPLE" subtype="IOSv" location="856,244">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 23:39:28 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname WADS-C00-PR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 29.2.80.254 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.110 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 151.2.220.10 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.80.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ network 29.2.80.0 0.0.0.3 area 0
+ network 29.2.80.254 0.0.0.0 area 0
+ default-information originate metric 100
+!
+router bgp 65009
+ bgp log-neighbor-changes
+ redistribute ospf 201 route-map map_default_only
+ neighbor 29.2.80.241 remote-as 65009
+ neighbor 29.2.80.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.80.241 send-community
+ neighbor 29.2.80.242 remote-as 65009
+ neighbor 29.2.80.242 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.80.242 send-community
+ neighbor 151.2.220.9 remote-as 27062
+ neighbor 151.2.220.9 description &lt;== Connection to DISA ==&gt;
+ neighbor 151.2.220.9 prefix-list WADS-OUT out
+ neighbor 151.2.220.9 route-map WADS-DEFAULT in
+ neighbor 151.2.220.9 route-map 7JXR_Primary out
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 151.2.220.9
+!
+ip access-list standard acl_default_only
+ permit 0.0.0.0
+!
+!
+ip prefix-list WADS-OUT seq 5 permit 29.2.80.0/24
+!
+route-map map_default_only permit 10
+ match ip address acl_default_only
+ set local-preference 500
+!
+route-map 7JXR_Primary permit 10
+ match ip address prefix-list WADS-OUT
+ set as-path prepend 65009
+!
+route-map WADS-DEFAULT permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ set community 200:0
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CONR-C00-PR-01" type="SIMPLE" subtype="IOSv" location="1041,212">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 06:57:23 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CONR-C00-PR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 29.2.132.251 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.106 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 151.2.220.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.132.2 255.255.255.248
+ standby 2 ip 29.2.132.1
+ standby 2 priority 110
+ standby 2 preempt
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.132.29 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ router-id 29.2.132.251
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ network 29.2.132.0 0.0.0.7 area 0
+ network 29.2.132.28 0.0.0.3 area 0
+ network 29.2.132.251 0.0.0.0 area 0
+ default-information originate metric 100
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ neighbor 29.2.132.241 remote-as 65001
+ neighbor 29.2.132.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.132.241 send-community
+ neighbor 29.2.132.242 remote-as 65001
+ neighbor 29.2.132.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.132.242 send-community
+ neighbor 29.2.132.252 remote-as 65001
+ neighbor 29.2.132.252 description &lt;== iBGP Connection to PR-02 ==&gt;
+ neighbor 29.2.132.252 update-source Loopback0
+ neighbor 151.2.220.1 remote-as 27062
+ neighbor 151.2.220.1 description &lt;== Connection to DISA ==&gt;
+ neighbor 151.2.220.1 prefix-list CONR-OUT out
+ neighbor 151.2.220.1 route-map CONR-DEFAULT in
+ neighbor 151.2.220.1 route-map 7JXR_Primary out
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 151.2.220.1
+!
+!
+ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+route-map 7JXR_Primary permit 10
+ match ip address prefix-list CONR-OUT
+ set as-path prepend 65001
+!
+route-map CONR-DEFAULT permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ set community 100:0
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CONR-C00-PR-02" type="SIMPLE" subtype="IOSv" location="1188,212">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 09:39:36 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CONR-C00-PR-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 29.2.132.252 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.107 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 151.2.220.22 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.132.3 255.255.255.248
+ standby 2 ip 29.2.132.1
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.132.30 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ router-id 29.2.132.252
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ network 29.2.132.0 0.0.0.7 area 0
+ network 29.2.132.28 0.0.0.3 area 0
+ network 29.2.132.252 0.0.0.0 area 0
+ default-information originate always metric 200
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ neighbor 29.2.132.251 remote-as 65001
+ neighbor 29.2.132.251 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.132.251 update-source Loopback0
+ neighbor 151.2.220.21 remote-as 27062
+ neighbor 151.2.220.21 description &lt;== Connection to DISA ==&gt;
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 151.2.220.21
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CONR-C00-CR-01" type="SIMPLE" subtype="IOSv" location="1041,449">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 08:06:15 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CONR-C00-CR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.132.241 255.255.255.255
+!
+interface Tunnel121
+ description &lt;==  CONR-CR01 -&gt; WADS-CR01 Tunnel 211 ==&gt;
+ ip address 29.2.4.161 255.255.255.254
+ tunnel source 29.2.132.9
+ tunnel destination 29.2.80.9
+!
+interface Tunnel131
+ description &lt;==  CONR-CR01 -&gt;  EADS-CR01 Tunnel 312 ==&gt;
+ ip address 29.2.4.149 255.255.255.254
+ tunnel source 29.2.132.9
+ tunnel destination 29.2.106.9
+!
+interface Tunnel141
+ description &lt;== CONR-CR01 -&gt; CMAFS-CR01 Tunnel 411 ==&gt;
+ ip address 29.2.4.184 255.255.255.254
+ tunnel source 29.2.132.9
+ tunnel destination 29.2.191.9
+!
+interface Tunnel151
+ description &lt;== Tunnel CONR-CR01 -&gt; PAFB-CR01 ==&gt;
+ ip address 29.2.4.188 255.255.255.254
+ tunnel source 29.2.132.9
+ tunnel destination 29.2.4.29
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.119 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description &lt;== Internal Firewall Subnet ==&gt;
+ ip address 29.2.132.18 255.255.255.248
+ standby 2 ip 29.2.132.17
+ standby 2 priority 110
+ standby 2 preempt
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.132.65 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.132.9 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.132.16 0.0.0.7 area 0
+ network 29.2.132.64 0.0.0.3 area 0
+ network 29.2.132.241 0.0.0.0 area 0
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ network 29.2.132.0 mask 255.255.255.0 route-map CONR-COMMUNITY
+ aggregate-address 29.2.132.0 255.255.255.0 summary-only
+ neighbor SITES-BGP peer-group
+ neighbor SITES-BGP description Inbound/Outbound Routing Policies
+ neighbor SITES-BGP timers 10 30
+ neighbor SITES-BGP send-community
+ neighbor SITES-BGP soft-reconfiguration inbound
+ neighbor SITES-BGP route-map SITES-BGP-IN in
+ neighbor SITES-BGP route-map SITES-BGP-OUT out
+ neighbor 29.2.4.148 remote-as 65005
+ neighbor 29.2.4.148 peer-group SITES-BGP
+ neighbor 29.2.4.148 description EADS CR01 eBGP Neighbor
+ neighbor 29.2.4.160 remote-as 65009
+ neighbor 29.2.4.160 peer-group SITES-BGP
+ neighbor 29.2.4.160 description WADS CR01 eBGP Neighbor
+ neighbor 29.2.4.185 remote-as 27071
+ neighbor 29.2.4.185 peer-group SITES-BGP
+ neighbor 29.2.4.185 description CMAF CR01 eBGP Neighbor
+ neighbor 29.2.4.189 remote-as 27058
+ neighbor 29.2.4.189 peer-group SITES-BGP
+ neighbor 29.2.4.189 description PAFB CR01 eBGP Neighbor
+ neighbor 29.2.132.242 remote-as 65001
+ neighbor 29.2.132.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.132.242 update-source Loopback0
+ neighbor 29.2.132.251 remote-as 65001
+ neighbor 29.2.132.251 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.132.251 update-source Loopback0
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+ip community-list standard EADS_DEFAULT permit 300:0
+ip community-list standard CMAFS_DEFAULT permit 400:0
+ip community-list standard PAFB_DEFAULT permit 500:0
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.4.29 255.255.255.255 29.2.132.10 name PAFBCR01:TUNNEL
+ip route 29.2.80.9 255.255.255.255 29.2.132.10 name WADSCR01:TUNNEL
+ip route 29.2.106.9 255.255.255.255 29.2.132.10 name EADSCR01:TUNNEL
+ip route 29.2.132.0 255.255.255.0 Null0 name CONR-CIDR1
+ip route 29.2.191.9 255.255.255.255 29.2.132.10 name CMAFSCR01:TUNNEL
+!
+!
+ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
+!
+route-map SITES-BGP-IN permit 100
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 200
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 300
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 400
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAFS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 500
+ description Peterson CIDR Block Advertisement
+ match community PAFB_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-OUT permit 10
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+!
+route-map CONR-COMMUNITY permit 10
+ set local-preference 500
+ set community 100:100
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="EADS-C00-CR-02" type="SIMPLE" subtype="IOSv" location="715,431">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 11:24:25 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname EADS-C00-CR-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.106.242 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.123 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.106.19 255.255.255.248
+ standby 2 ip 29.2.106.17
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.106.66 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ network 29.2.106.16 0.0.0.7 area 0
+ network 29.2.106.64 0.0.0.3 area 0
+ network 29.2.106.242 0.0.0.0 area 0
+!
+router bgp 65005
+ bgp log-neighbor-changes
+ network 29.2.106.0 mask 255.255.255.0 route-map EADS-COMMUNITY
+ aggregate-address 29.2.106.0 255.255.255.0 summary-only
+ neighbor 29.2.106.241 remote-as 65005
+ neighbor 29.2.106.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.106.241 update-source Loopback0
+ neighbor 29.2.106.254 remote-as 65005
+ neighbor 29.2.106.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.106.254 update-source Loopback0
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.106.0 255.255.255.0 Null0 name EADS-CIDR1
+!
+!
+ip prefix-list EADS-OUT seq 5 permit 29.2.106.0/24
+!
+route-map EADS-COMMUNITY permit 10
+ set local-preference 400
+ set community 300:300
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="EADS-C00-CR-01" type="SIMPLE" subtype="IOSv" location="598,431">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 10:01:40 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname EADS-C00-CR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.106.241 255.255.255.255
+!
+interface Tunnel311
+ description &lt;== EADS-CR01 to CONR-CR01 ==&gt;
+ ip address 29.2.4.148 255.255.255.254
+ no ip redirects
+ ip mtu 1396
+ ip tcp adjust-mss 1360
+ tunnel source 29.2.106.9
+ tunnel destination 29.2.132.9
+ tunnel path-mtu-discovery
+ tunnel path-mtu-discovery age-timer 30
+!
+interface Tunnel321
+ description &lt;== EADS-CR01 to WADS-CR01 ==&gt;
+ ip address 29.2.4.144 255.255.255.254
+ no ip redirects
+ ip mtu 1396
+ ip tcp adjust-mss 1360
+ tunnel source 29.2.106.9
+ tunnel destination 29.2.80.9
+ tunnel path-mtu-discovery
+ tunnel path-mtu-discovery age-timer 30
+!
+interface Tunnel341
+ description &lt;== EADS-CR01 to CMAFS-CR01 ==&gt;
+ ip address 29.2.4.152 255.255.255.254
+ no ip redirects
+ ip mtu 1396
+ ip tcp adjust-mss 1360
+ tunnel source 29.2.106.9
+ tunnel destination 29.2.191.9
+ tunnel path-mtu-discovery
+ tunnel path-mtu-discovery age-timer 30
+!
+interface Tunnel351
+ description &lt;== EADS-CR01 to PAFB-CR01 ==&gt;
+ ip address 29.2.4.156 255.255.255.254
+ no ip redirects
+ ip mtu 1396
+ ip tcp adjust-mss 1360
+ tunnel source 29.2.106.9
+ tunnel destination 29.2.4.29
+ tunnel path-mtu-discovery
+ tunnel path-mtu-discovery age-timer 30
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.122 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.106.18 255.255.255.248
+ standby 2 ip 29.2.106.17
+ standby 2 priority 110
+ standby 2 preempt
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.106.65 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.106.9 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.106.16 0.0.0.7 area 0
+ network 29.2.106.64 0.0.0.3 area 0
+ network 29.2.106.241 0.0.0.0 area 0
+!
+router bgp 65005
+ bgp log-neighbor-changes
+ network 29.2.106.0 mask 255.255.255.0 route-map EADS-COMMUNITY
+ aggregate-address 29.2.106.0 255.255.255.0 summary-only
+ neighbor SITES-BGP peer-group
+ neighbor SITES-BGP description Inbound/Outbound Routing Policies
+ neighbor SITES-BGP timers 10 30
+ neighbor SITES-BGP send-community
+ neighbor SITES-BGP soft-reconfiguration inbound
+ neighbor SITES-BGP route-map SITES-BGP-IN in
+ neighbor SITES-BGP route-map SITES-BGP-OUT out
+ neighbor 29.2.4.145 remote-as 65009
+ neighbor 29.2.4.145 peer-group SITES-BGP
+ neighbor 29.2.4.145 description WADS CR01 eBGP Neighbor
+ neighbor 29.2.4.149 remote-as 65001
+ neighbor 29.2.4.149 peer-group SITES-BGP
+ neighbor 29.2.4.149 description CONR CR01 eBGP Neighbor
+ neighbor 29.2.4.153 remote-as 27071
+ neighbor 29.2.4.153 peer-group SITES-BGP
+ neighbor 29.2.4.153 description CMAF CR01 eBGP Neighbor
+ neighbor 29.2.4.157 remote-as 27058
+ neighbor 29.2.4.157 peer-group SITES-BGP
+ neighbor 29.2.4.157 description PAFB CR01 eBGP Neighbor
+ neighbor 29.2.106.242 remote-as 65005
+ neighbor 29.2.106.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.106.242 update-source Loopback0
+ neighbor 29.2.106.254 remote-as 65005
+ neighbor 29.2.106.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.106.254 update-source Loopback0
+ neighbor 29.2.106.254 timers 10 30
+ neighbor 29.2.106.254 send-community
+ neighbor 29.2.106.254 soft-reconfiguration inbound
+ neighbor 29.2.106.254 route-map PREM-BGP-IN in
+ neighbor 29.2.106.254 route-map PREM-BGP-OUT out
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+ip community-list standard EADS_DEFAULT permit 300:0
+ip community-list standard PAFB_DEFAULT permit 500:0
+ip community-list standard CMAF_DEFAULT permit 400:0
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.4.29 255.255.255.255 29.2.106.10 name PAFBCR01:Tunnel
+ip route 29.2.80.9 255.255.255.255 29.2.106.10 name WADSCR01:Tunnel
+ip route 29.2.106.0 255.255.255.0 Null0 name EADS-CIDR1
+ip route 29.2.132.9 255.255.255.255 29.2.106.10 name CONRCR01:Tunnel
+ip route 29.2.132.13 255.255.255.255 29.2.106.10 name CONRCR02:Tunnel
+ip route 29.2.191.9 255.255.255.255 29.2.106.10 name CMAFCR01:Tunnel
+!
+!
+route-map SITES-BGP-IN permit 100
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 200
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 300
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 400
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAFS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 410
+ description CMAF Default Route
+ match community CMAF_DEFAULT
+ set local-preference 300
+!
+route-map SITES-BGP-IN permit 500
+ description Peterson CIDR Block Advertisement
+ match community PAFB_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 510
+ description Peterson Default route
+ match community PAFB_DEFAULT
+ set local-preference 400
+!
+route-map PREM-BGP-OUT permit 10
+ match community EADS_CIDR
+!
+route-map SITES-BGP-OUT permit 10
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+!
+route-map PREM-BGP-IN permit 10
+ match community EADS_DEFAULT
+ set local-preference 500
+!
+route-map EADS-COMMUNITY permit 10
+ set local-preference 500
+ set community 300:300
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="WADS-C00-CR-01" type="SIMPLE" subtype="IOSv" location="824,431">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 07:34:38 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname WADS-C00-CR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.80.241 255.255.255.255
+!
+interface Tunnel211
+ description &lt;==  WADS-CR01 -&gt;  conr-CR01 Tunnel 121 ==&gt;
+ ip address 29.2.4.160 255.255.255.254
+ tunnel source 29.2.80.9
+ tunnel destination 29.2.132.9
+!
+interface Tunnel231
+ description &lt;==  WADS-CR01 -&gt;  EADS-CR01 Tunnel 321 ==&gt;
+ ip address 29.2.4.145 255.255.255.254
+ tunnel source 29.2.80.9
+ tunnel destination 29.2.106.9
+!
+interface Tunnel241
+ description &lt;== WADS-CR01 -&gt; CMAFS-CR01 Tunnel 421 ==&gt;
+ ip address 29.2.4.164 255.255.255.254
+ tunnel source 29.2.80.9
+ tunnel destination 29.2.191.9
+!
+interface Tunnel251
+ description &lt;==  WADS-CR01 -&gt; HQ-CR01 Tunnel 521 ==&gt;
+ ip address 29.2.4.168 255.255.255.254
+ tunnel source 29.2.80.9
+ tunnel destination 29.2.4.29
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.113 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.80.18 255.255.255.248
+ standby 2 ip 29.2.80.17
+ standby 2 priority 110
+ standby 2 preempt
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.80.65 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.80.9 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.80.16 0.0.0.7 area 0
+ network 29.2.80.64 0.0.0.3 area 0
+ network 29.2.80.241 0.0.0.0 area 0
+!
+router bgp 65009
+ bgp log-neighbor-changes
+ network 29.2.80.0 mask 255.255.255.0 route-map WADS-COMMUNITY
+ aggregate-address 29.2.80.0 255.255.255.0 summary-only
+ neighbor SITES-BGP peer-group
+ neighbor SITES-BGP description Inbound/Outbound Routing Policies
+ neighbor SITES-BGP timers 10 30
+ neighbor SITES-BGP send-community
+ neighbor SITES-BGP soft-reconfiguration inbound
+ neighbor SITES-BGP route-map SITES-BGP-IN in
+ neighbor SITES-BGP route-map SITES-BGP-OUT out
+ neighbor 29.2.4.144 remote-as 65005
+ neighbor 29.2.4.144 peer-group SITES-BGP
+ neighbor 29.2.4.144 description EADS CR01 eBGP Neighbor
+ neighbor 29.2.4.161 remote-as 65001
+ neighbor 29.2.4.161 peer-group SITES-BGP
+ neighbor 29.2.4.161 description CONR CR01 eBGP Neighbor
+ neighbor 29.2.4.165 remote-as 27071
+ neighbor 29.2.4.165 peer-group SITES-BGP
+ neighbor 29.2.4.165 description CMAF CR01 eBGP Neighbor
+ neighbor 29.2.4.169 remote-as 27058
+ neighbor 29.2.4.169 peer-group SITES-BGP
+ neighbor 29.2.4.169 description PAFB CR01 eBGP Neighbor
+ neighbor 29.2.80.242 remote-as 65009
+ neighbor 29.2.80.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.80.242 update-source Loopback0
+ neighbor 29.2.80.254 remote-as 65009
+ neighbor 29.2.80.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.80.254 update-source Loopback0
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+ip community-list standard EADS_DEFAULT permit 300:0
+ip community-list standard CMAFS_DEFAULT permit 400:0
+ip community-list standard PAFB_DEFAULT permit 500:0
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.4.29 255.255.255.255 29.2.80.10 name PAFBCR01:Tunnel
+ip route 29.2.80.0 255.255.255.0 Null0 name WADS-CIDR1
+ip route 29.2.106.9 255.255.255.255 29.2.80.10 name EADSCR01:Tunnel
+ip route 29.2.132.9 255.255.255.255 29.2.80.10 name CONRCR01:Tunnel
+ip route 29.2.132.13 255.255.255.255 29.2.80.10 name CONRCR02:Tunnel
+ip route 29.2.191.9 255.255.255.255 29.2.80.10 name CMAFSCR01:Tunnel
+!
+!
+ip prefix-list NORAD-ALLOCATIONS seq 5 permit 29.2.80.0/24
+ip prefix-list NORAD-ALLOCATIONS seq 10 permit 29.2.106.0/24
+ip prefix-list NORAD-ALLOCATIONS seq 15 permit 29.2.132.0/24
+ip prefix-list NORAD-ALLOCATIONS seq 20 permit 29.2.191.0/24
+ip prefix-list NORAD-ALLOCATIONS seq 25 permit 29.2.221.0/24
+!
+route-map SITES-BGP-IN permit 100
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 200
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 300
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 400
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAFS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 500
+ description Peterson CIDR Block Advertisement
+ match community PAFB_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-OUT permit 10
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+!
+route-map WADS-COMMUNITY permit 10
+ set local-preference 500
+ set community 200:200
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="WADS-C00-CR-02" type="SIMPLE" subtype="IOSv" location="934,431">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 12:55:16 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname WADS-C00-CR-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.80.242 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.112 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.80.19 255.255.255.248
+ standby 2 ip 29.2.80.17
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.80.66 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ network 29.2.80.16 0.0.0.7 area 0
+ network 29.2.80.64 0.0.0.3 area 0
+ network 29.2.80.242 0.0.0.0 area 0
+!
+router bgp 65009
+ bgp log-neighbor-changes
+ network 29.2.80.0 mask 255.255.255.0 route-map WADS-COMMUNITY
+ aggregate-address 29.2.80.0 255.255.255.0 summary-only
+ neighbor 29.2.80.241 remote-as 65009
+ neighbor 29.2.80.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.80.241 update-source Loopback0
+ neighbor 29.2.80.254 remote-as 65009
+ neighbor 29.2.80.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.80.254 update-source Loopback0
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.80.0 255.255.255.0 Null0 name WADS-CIDR1
+!
+!
+ip prefix-list WADS-OUT seq 5 permit 29.2.80.0/24
+!
+route-map WADS-COMMUNITY permit 10
+ set local-preference 400
+ set community 200:200
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CMAF-C00-CR-02" type="SIMPLE" subtype="IOSv" location="243,431">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 11:08:20 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CMAF-C00-CR-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.191.242 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.126 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.191.19 255.255.255.248
+ standby 2 ip 29.2.191.17
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.191.66 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ ip address 192.168.2.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ redistribute bgp 27071 subnets
+ network 29.2.191.16 0.0.0.7 area 0
+ network 29.2.191.64 0.0.0.3 area 0
+ network 29.2.191.242 0.0.0.0 area 0
+!
+router bgp 27071
+ bgp log-neighbor-changes
+ bgp default local-preference 300
+ network 0.0.0.0
+ redistribute ospf 201 metric 200
+ neighbor 29.2.191.241 remote-as 27071
+ neighbor 29.2.191.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.191.241 update-source Loopback0
+ neighbor 29.2.191.254 remote-as 27071
+ neighbor 29.2.191.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.191.254 update-source Loopback0
+ neighbor 192.168.2.1 remote-as 27058
+ neighbor 192.168.2.1 description &lt;== Backdoor connection to PAFB-C00-CR-02 ==&gt;
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+    </node>
+    <node name="CMAF-C00-CR-01" type="SIMPLE" subtype="IOSv" location="99,493">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 06:52:16 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CMAF-C00-CR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.191.241 255.255.255.255
+!
+interface Tunnel411
+ description &lt;== CMAFS-CR01 -&gt; CONR-CR01 Tunnel 141 ==&gt;
+ ip address 29.2.4.185 255.255.255.254
+ tunnel source 29.2.191.9
+ tunnel destination 29.2.132.9
+!
+interface Tunnel421
+ description &lt;== CMAFS-CR01 -&gt; WADS-CR01 Tunnel 241 ==&gt;
+ ip address 29.2.4.165 255.255.255.254
+ tunnel source 29.2.191.9
+ tunnel destination 29.2.80.9
+!
+interface Tunnel431
+ description &lt;== CMAF-CR01 to EADS-CR01 ==&gt;
+ ip address 29.2.4.153 255.255.255.254
+ tunnel source 29.2.191.9
+ tunnel destination 29.2.106.9
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.124 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.191.18 255.255.255.248
+ standby 2 ip 29.2.191.17
+ standby 2 priority 110
+ standby 2 preempt
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.191.65 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ description &lt;== L3VPN G0/3 ==&gt;
+ ip address 29.2.191.9 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ ip address 192.168.1.2 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ redistribute bgp 27071 subnets
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.191.16 0.0.0.7 area 0
+ network 29.2.191.64 0.0.0.3 area 0
+ network 29.2.191.241 0.0.0.0 area 0
+!
+router bgp 27071
+ bgp log-neighbor-changes
+ bgp default local-preference 400
+ network 29.2.191.0 mask 255.255.255.0 route-map CMAF-COMMUNITY
+ aggregate-address 29.2.191.0 255.255.255.0 summary-only
+ redistribute ospf 201
+ neighbor SITES-BGP peer-group
+ neighbor SITES-BGP description Inbound/Outbound Routing Policies
+ neighbor SITES-BGP timers 10 30
+ neighbor SITES-BGP send-community
+ neighbor SITES-BGP soft-reconfiguration inbound
+ neighbor SITES-BGP route-map SITES-BGP-IN in
+ neighbor SITES-BGP route-map SITES-BGP-OUT out
+ neighbor 29.2.4.152 remote-as 65005
+ neighbor 29.2.4.152 peer-group SITES-BGP
+ neighbor 29.2.4.152 description &lt;== eBGP Connection to EADS ==&gt;
+ neighbor 29.2.4.164 remote-as 65009
+ neighbor 29.2.4.164 peer-group SITES-BGP
+ neighbor 29.2.4.164 description &lt;== eBGP connection to WADS ==&gt;
+ neighbor 29.2.4.184 remote-as 65001
+ neighbor 29.2.4.184 peer-group SITES-BGP
+ neighbor 29.2.4.184 description &lt;== eBGP Connection to CONR ==&gt; 
+ neighbor 29.2.191.242 remote-as 27071
+ neighbor 29.2.191.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.191.242 update-source Loopback0
+ neighbor 29.2.191.254 remote-as 27071
+ neighbor 29.2.191.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.191.254 update-source Loopback0
+ neighbor 192.168.1.1 remote-as 27058
+ neighbor 192.168.1.1 description &lt;== Backdoor connection to PAFB-C00-CR-01 ==&gt;
+ neighbor 192.168.1.1 send-community
+ neighbor 192.168.1.1 soft-reconfiguration inbound
+ neighbor 192.168.1.1 route-map SITES-BGP-IN in
+ default-information originate
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard CMAFS_DEFAULT permit 400:0
+ip community-list standard PAFB_CIDR permit 500:500
+ip community-list standard PAFB_DEFAULT permit 500:0
+!
+no ip http server
+no ip http secure-server
+ip default-network 199.123.5.0
+ip route 29.2.80.9 255.255.255.255 29.2.191.10 name WADSCR01:Tunnel
+ip route 29.2.106.9 255.255.255.255 29.2.191.10 name EADSCR01:Tunnel
+ip route 29.2.132.9 255.255.255.255 29.2.191.10 name CONRCR01:Tunnel
+ip route 29.2.132.13 255.255.255.255 29.2.191.10 name CONRCR01:Tunnel
+ip route 29.2.191.0 255.255.255.0 Null0 name CMAF-CIDR1
+ip route 29.2.191.254 255.255.255.255 29.2.191.20 name PR-01-L0
+ip route 29.2.221.0 255.255.255.0 Null0 name PAFB-CIDR1
+!
+!
+route-map SITES-BGP-IN permit 100
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 200
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 300
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 400
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAFS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 410
+ description CMAF Default Route
+ match community CMAFS_DEFAULT
+!
+route-map SITES-BGP-IN permit 500
+ description Peterson CIDR Block Advertisement
+ match community PAFB_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 510
+ description PAFB Default Route
+ match community PAFB_DEFAULT
+ set local-preference 100
+!
+route-map SITES-BGP-OUT permit 10
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAFS_CIDR
+!
+route-map SITES-BGP-OUT permit 20
+ description Cheyenne Mountain Default Route
+ match community CMAFS_DEFAULT
+!
+route-map CMAF-COMMUNITY permit 10
+ set local-preference 500
+ set community 400:400
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+    </node>
+    <node name="CONR-C00-CR-02" type="SIMPLE" subtype="IOSv" location="1188,449">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 09:49:23 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CONR-C00-CR-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.132.242 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.117 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ description &lt;== Internal Firewall Subnet ==&gt;
+ ip address 29.2.132.19 255.255.255.248
+ standby 2 ip 29.2.132.17
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.132.66 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.132.13 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.4.128 0.0.0.127 area 0
+ network 29.2.132.16 0.0.0.7 area 0
+ network 29.2.132.64 0.0.0.3 area 0
+ network 29.2.132.242 0.0.0.0 area 0
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ network 29.2.132.0 mask 255.255.255.0 route-map CONR-COMMUNITY
+ aggregate-address 29.2.132.0 255.255.255.0 summary-only
+ neighbor 29.2.132.241 remote-as 65001
+ neighbor 29.2.132.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.132.241 update-source Loopback0
+ neighbor 29.2.132.251 remote-as 65001
+ neighbor 29.2.132.251 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.132.251 update-source Loopback0
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.4.29 255.255.255.255 29.2.132.14 2 name PAFBCR01:151/512
+ip route 29.2.80.9 255.255.255.255 29.2.132.14 name WADSCR01:Tunnel121/212
+ip route 29.2.106.9 255.255.255.255 29.2.132.14 name EADSCR01:131/312
+ip route 29.2.132.0 255.255.255.0 Null0 name CONR-CIDR1
+ip route 29.2.191.9 255.255.255.255 29.2.132.14 name CMAFSCR01:141/412
+!
+!
+ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
+!
+route-map CONR-COMMUNITY permit 10
+ set local-preference 400
+ set community 100:100
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="PAFB-C00-CR-01" type="SIMPLE" subtype="IOSv" location="380,511">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 08:11:27 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname PAFB-C00-CR-01
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.221.241 255.255.255.255
+!
+interface Tunnel511
+ description &lt;== PAFB-CR01 to CONR-CR01 ==&gt;
+ ip address 29.2.4.189 255.255.255.254
+ tunnel source 29.2.4.29
+ tunnel destination 29.2.132.9
+!
+interface Tunnel521
+ description &lt;== PAFB-CR01 to WADS-CR01 ==&gt;
+ ip address 29.2.4.169 255.255.255.254
+ tunnel source 29.2.4.29
+ tunnel destination 29.2.80.9
+!
+interface Tunnel531
+ description &lt;== PAFB-CR01 to EADS-CR01
+ ip address 29.2.4.157 255.255.255.254
+ tunnel source 29.2.4.29
+ tunnel destination 29.2.106.9
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.115 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.221.18 255.255.255.248
+ standby 2 ip 29.2.221.17
+ standby 2 priority 110
+ standby 2 preempt
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.221.65 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 29.2.4.29 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ ip address 192.168.1.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ redistribute bgp 27058 subnets
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.221.16 0.0.0.7 area 0
+ network 29.2.221.64 0.0.0.3 area 0
+ network 29.2.221.241 0.0.0.0 area 0
+!
+router bgp 27058
+ bgp log-neighbor-changes
+ bgp default local-preference 400
+ network 29.2.221.0 mask 255.255.255.0 route-map PAFB-COMMUNITY
+ aggregate-address 29.2.221.0 255.255.255.0 summary-only
+ redistribute ospf 201
+ neighbor SITES-BGP peer-group
+ neighbor SITES-BGP description Inbound/Outbound Routing Policies
+ neighbor SITES-BGP timers 10 30
+ neighbor SITES-BGP send-community
+ neighbor SITES-BGP soft-reconfiguration inbound
+ neighbor SITES-BGP route-map SITES-BGP-IN in
+ neighbor SITES-BGP route-map SITES-BGP-OUT out
+ neighbor 29.2.4.156 remote-as 65005
+ neighbor 29.2.4.156 peer-group SITES-BGP
+ neighbor 29.2.4.156 description &lt;== eBGP Connection to EADS ==&gt;
+ neighbor 29.2.4.168 remote-as 65009
+ neighbor 29.2.4.168 peer-group SITES-BGP
+ neighbor 29.2.4.168 description &lt;== eBGP Connection to WADS ==&gt;
+ neighbor 29.2.4.188 remote-as 65001
+ neighbor 29.2.4.188 peer-group SITES-BGP
+ neighbor 29.2.4.188 description &lt;== eBGP Connection to CONR ==&gt;
+ neighbor 29.2.221.242 remote-as 27058
+ neighbor 29.2.221.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.221.242 update-source Loopback0
+ neighbor 29.2.221.254 remote-as 27058
+ neighbor 29.2.221.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.221.254 update-source Loopback0
+ neighbor 29.2.221.254 timers 10 30
+ neighbor 29.2.221.254 next-hop-self
+ neighbor 29.2.221.254 send-community
+ neighbor 29.2.221.254 soft-reconfiguration inbound
+ neighbor 192.168.1.2 remote-as 27071
+ neighbor 192.168.1.2 description &lt;== Backdoor connection to CMAF-C00-CR-01 ==&gt;
+ neighbor 192.168.1.2 send-community
+ neighbor 192.168.1.2 soft-reconfiguration inbound
+ neighbor 192.168.1.2 route-map SITES-BGP-IN in
+ default-information originate
+!
+ip forward-protocol nd
+!
+ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAFS_CIDR permit 400:400
+ip community-list standard CMAFS_DEFAULT permit 400:0
+ip community-list standard PAFB_CIDR permit 500:500
+ip community-list standard PAFB_DEFAULT permit 500:0
+!
+no ip http server
+no ip http secure-server
+ip route 29.2.80.9 255.255.255.255 29.2.4.30 name WADSCR01:Tunnel
+ip route 29.2.106.9 255.255.255.255 29.2.4.30 name EADSCR01:Tunnel
+ip route 29.2.132.9 255.255.255.255 29.2.4.30 name CONRCR01:Tunnel
+ip route 29.2.132.13 255.255.255.255 29.2.4.30 name CONRCR02:Tunnel
+ip route 29.2.221.0 255.255.255.0 Null0 name PAFB-CIDR1
+!
+!
+route-map SITES-BGP-IN permit 100
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 200
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 300
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 400
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAFS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 410
+ description CMAF Default Route
+ match community CMAFS_DEFAULT
+!
+route-map SITES-BGP-IN permit 510
+ description PAFB Default Route
+ match community PAFB_DEFAULT
+ set local-preference 100
+!
+route-map SITES-BGP-OUT permit 10
+ description Peterson Airforce Base CIDR Block Advertisement
+ match community PAFB_CIDR
+!
+route-map PAFB-COMMUNITY permit 10
+ set local-preference 500
+ set community 500:500
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+    </node>
+    <node name="PAFB-C00-CR-02" type="SIMPLE" subtype="IOSv" location="489,431">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 08:31:28 UTC Tue Jun 28 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname PAFB-C00-CR-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description &lt;== iBGP Peering Loopback ==&gt; 
+ ip address 29.2.221.242 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.255.0.114 255.255.0.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 29.2.221.19 255.255.255.248
+ standby 2 ip 29.2.221.17
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 29.2.221.66 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ ip address 192.168.2.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 201
+ redistribute bgp 27058 subnets
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ network 29.2.221.16 0.0.0.7 area 0
+ network 29.2.221.64 0.0.0.3 area 0
+ network 29.2.221.242 0.0.0.0 area 0
+!
+router bgp 27058
+ bgp log-neighbor-changes
+ bgp default local-preference 300
+ network 0.0.0.0
+ redistribute ospf 201 metric 200
+ neighbor 29.2.221.241 remote-as 27058
+ neighbor 29.2.221.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.221.241 update-source Loopback0
+ neighbor 29.2.221.254 remote-as 27058
+ neighbor 29.2.221.254 description &lt;== iBGP Connection to PR-01 ==&gt;
+ neighbor 29.2.221.254 update-source Loopback0
+ neighbor 192.168.2.2 remote-as 27071
+ neighbor 192.168.2.2 description &lt;== Backdoor connection to CMAF-C00-CR-02 ==&gt;
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+    </node>
+    <node name="CMAF-C00-FW-01" type="SIMPLE" subtype="ASAv" location="172,311">
+        <extensions>
+            <entry key="config" type="String">!
+ASA Version 9.5(2)204 
+!
+hostname CMAF-C00-FW-01
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+names
+!
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address 29.2.191.1 255.255.255.252 
+!
+interface GigabitEthernet0/1
+ nameif inside
+ security-level 100
+ ip address 29.2.191.20 255.255.255.248 
+!
+interface Management0/0
+ shutdown
+ no nameif
+ no security-level
+ ip address 10.255.0.118 255.255.0.0 
+!
+ftp mode passive
+pager lines 23
+mtu outside 1500
+mtu inside 1500
+no failover
+no monitor-interface service-module 
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+router ospf 201
+ network 29.2.191.16 255.255.255.248 area 0
+ log-adj-changes
+ redistribute connected subnets
+!
+route inside 29.2.191.0 255.255.255.0 29.2.191.18 1
+route outside 29.2.191.254 255.255.255.255 29.2.191.2 1
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpoint _SmartCallHome_ServerCA
+ no validation-usage
+ crl configure
+crypto ca trustpool policy
+ auto-import
+crypto ca certificate chain _SmartCallHome_ServerCA
+ certificate ca 6ecc7aa5a7032009b8cebcf4e952d491
+    308205ec 308204d4 a0030201 0202106e cc7aa5a7 032009b8 cebcf4e9 52d49130 
+    0d06092a 864886f7 0d010105 05003081 ca310b30 09060355 04061302 55533117 
+    30150603 55040a13 0e566572 69536967 6e2c2049 6e632e31 1f301d06 0355040b 
+    13165665 72695369 676e2054 72757374 204e6574 776f726b 313a3038 06035504 
+    0b133128 63292032 30303620 56657269 5369676e 2c20496e 632e202d 20466f72 
+    20617574 686f7269 7a656420 75736520 6f6e6c79 31453043 06035504 03133c56 
+    65726953 69676e20 436c6173 73203320 5075626c 69632050 72696d61 72792043 
+    65727469 66696361 74696f6e 20417574 686f7269 7479202d 20473530 1e170d31 
+    30303230 38303030 3030305a 170d3230 30323037 32333539 35395a30 81b5310b 
+    30090603 55040613 02555331 17301506 0355040a 130e5665 72695369 676e2c20 
+    496e632e 311f301d 06035504 0b131656 65726953 69676e20 54727573 74204e65 
+    74776f72 6b313b30 39060355 040b1332 5465726d 73206f66 20757365 20617420 
+    68747470 733a2f2f 7777772e 76657269 7369676e 2e636f6d 2f727061 20286329 
+    3130312f 302d0603 55040313 26566572 69536967 6e20436c 61737320 33205365 
+    63757265 20536572 76657220 4341202d 20473330 82012230 0d06092a 864886f7 
+    0d010101 05000382 010f0030 82010a02 82010100 b187841f c20c45f5 bcab2597 
+    a7ada23e 9cbaf6c1 39b88bca c2ac56c6 e5bb658e 444f4dce 6fed094a d4af4e10 
+    9c688b2e 957b899b 13cae234 34c1f35b f3497b62 83488174 d188786c 0253f9bc 
+    7f432657 5833833b 330a17b0 d04e9124 ad867d64 12dc744a 34a11d0a ea961d0b 
+    15fca34b 3bce6388 d0f82d0c 948610ca b69a3dca eb379c00 48358629 5078e845 
+    63cd1941 4ff595ec 7b98d4c4 71b350be 28b38fa0 b9539cf5 ca2c23a9 fd1406e8 
+    18b49ae8 3c6e81fd e4cd3536 b351d369 ec12ba56 6e6f9b57 c58b14e7 0ec79ced 
+    4a546ac9 4dc5bf11 b1ae1c67 81cb4455 33997f24 9b3f5345 7f861af3 3cfa6d7f 
+    81f5b84a d3f58537 1cb5a6d0 09e4187b 384efa0f 02030100 01a38201 df308201 
+    db303406 082b0601 05050701 01042830 26302406 082b0601 05050730 01861868 
+    7474703a 2f2f6f63 73702e76 65726973 69676e2e 636f6d30 12060355 1d130101 
+    ff040830 060101ff 02010030 70060355 1d200469 30673065 060b6086 480186f8 
+    45010717 03305630 2806082b 06010505 07020116 1c687474 70733a2f 2f777777 
+    2e766572 69736967 6e2e636f 6d2f6370 73302a06 082b0601 05050702 02301e1a 
+    1c687474 70733a2f 2f777777 2e766572 69736967 6e2e636f 6d2f7270 61303406 
+    03551d1f 042d302b 3029a027 a0258623 68747470 3a2f2f63 726c2e76 65726973 
+    69676e2e 636f6d2f 70636133 2d67352e 63726c30 0e060355 1d0f0101 ff040403 
+    02010630 6d06082b 06010505 07010c04 61305fa1 5da05b30 59305730 55160969 
+    6d616765 2f676966 3021301f 30070605 2b0e0302 1a04148f e5d31a86 ac8d8e6b 
+    c3cf806a d448182c 7b192e30 25162368 7474703a 2f2f6c6f 676f2e76 65726973 
+    69676e2e 636f6d2f 76736c6f 676f2e67 69663028 0603551d 11042130 1fa41d30 
+    1b311930 17060355 04031310 56657269 5369676e 4d504b49 2d322d36 301d0603 
+    551d0e04 1604140d 445c1653 44c1827e 1d20ab25 f40163d8 be79a530 1f060355 
+    1d230418 30168014 7fd365a7 c2ddecbb f03009f3 4339fa02 af333133 300d0609 
+    2a864886 f70d0101 05050003 82010100 0c8324ef ddc30cd9 589cfe36 b6eb8a80 
+    4bd1a3f7 9df3cc53 ef829ea3 a1e697c1 589d756c e01d1b4c fad1c12d 05c0ea6e 
+    b2227055 d9203340 3307c265 83fa8f43 379bea0e 9a6c70ee f69c803b d937f47a 
+    6decd018 7d494aca 99c71928 a2bed877 24f78526 866d8705 404167d1 273aeddc 
+    481d22cd 0b0b8bbc f4b17bfd b499a8e9 762ae11a 2d876e74 d388dd1e 22c6df16 
+    b62b8214 0a945cf2 50ecafce ff62370d ad65d306 4153ed02 14c8b558 28a1ace0 
+    5becb37f 954afb03 c8ad26db e6667812 4ad99f42 fbe198e6 42839b8f 8f6724e8 
+    6119b5dd cdb50b26 058ec36e c4c875b8 46cfe218 065ea9ae a8819a47 16de0c28 
+    6c2527b9 deb78458 c61f381e a4c4cb66
+  quit
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+dynamic-access-policy-record DfltAccessPolicy
+!
+class-map icmp-class
+ match default-inspection-traffic
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map icmp_policy
+ class icmp-class
+  inspect icmp 
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect ip-options 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny  
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip  
+  inspect xdmcp 
+!
+service-policy global_policy global
+service-policy icmp_policy interface outside
+prompt hostname context 
+no call-home reporting anonymous
+call-home
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly
+ profile License
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination transport-method http</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="PAFB-C00-FW-01" type="SIMPLE" subtype="ASAv" location="422,311">
+        <extensions>
+            <entry key="config" type="String">!
+ASA Version 9.5(2)204 
+!
+hostname PAFB-C00-FW-01
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+names
+!
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address 29.2.221.1 255.255.255.252 
+!
+interface GigabitEthernet0/1
+ nameif inside
+ security-level 100
+ ip address 29.2.221.20 255.255.255.248 
+!
+interface Management0/0
+ shutdown
+ no nameif
+ no security-level
+ ip address 10.255.0.116 255.255.0.0 
+!
+ftp mode passive
+pager lines 23
+mtu outside 1500
+mtu inside 1500
+no failover
+no monitor-interface service-module 
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+router ospf 201
+ network 29.2.221.0 255.255.255.252 area 0
+ network 29.2.221.16 255.255.255.248 area 0
+ log-adj-changes
+!
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpoint _SmartCallHome_ServerCA
+ no validation-usage
+ crl configure
+crypto ca trustpool policy
+ auto-import
+crypto ca certificate chain _SmartCallHome_ServerCA
+ certificate ca 6ecc7aa5a7032009b8cebcf4e952d491
+    308205ec 308204d4 a0030201 0202106e cc7aa5a7 032009b8 cebcf4e9 52d49130 
+    0d06092a 864886f7 0d010105 05003081 ca310b30 09060355 04061302 55533117 
+    30150603 55040a13 0e566572 69536967 6e2c2049 6e632e31 1f301d06 0355040b 
+    13165665 72695369 676e2054 72757374 204e6574 776f726b 313a3038 06035504 
+    0b133128 63292032 30303620 56657269 5369676e 2c20496e 632e202d 20466f72 
+    20617574 686f7269 7a656420 75736520 6f6e6c79 31453043 06035504 03133c56 
+    65726953 69676e20 436c6173 73203320 5075626c 69632050 72696d61 72792043 
+    65727469 66696361 74696f6e 20417574 686f7269 7479202d 20473530 1e170d31 
+    30303230 38303030 3030305a 170d3230 30323037 32333539 35395a30 81b5310b 
+    30090603 55040613 02555331 17301506 0355040a 130e5665 72695369 676e2c20 
+    496e632e 311f301d 06035504 0b131656 65726953 69676e20 54727573 74204e65 
+    74776f72 6b313b30 39060355 040b1332 5465726d 73206f66 20757365 20617420 
+    68747470 733a2f2f 7777772e 76657269 7369676e 2e636f6d 2f727061 20286329 
+    3130312f 302d0603 55040313 26566572 69536967 6e20436c 61737320 33205365 
+    63757265 20536572 76657220 4341202d 20473330 82012230 0d06092a 864886f7 
+    0d010101 05000382 010f0030 82010a02 82010100 b187841f c20c45f5 bcab2597 
+    a7ada23e 9cbaf6c1 39b88bca c2ac56c6 e5bb658e 444f4dce 6fed094a d4af4e10 
+    9c688b2e 957b899b 13cae234 34c1f35b f3497b62 83488174 d188786c 0253f9bc 
+    7f432657 5833833b 330a17b0 d04e9124 ad867d64 12dc744a 34a11d0a ea961d0b 
+    15fca34b 3bce6388 d0f82d0c 948610ca b69a3dca eb379c00 48358629 5078e845 
+    63cd1941 4ff595ec 7b98d4c4 71b350be 28b38fa0 b9539cf5 ca2c23a9 fd1406e8 
+    18b49ae8 3c6e81fd e4cd3536 b351d369 ec12ba56 6e6f9b57 c58b14e7 0ec79ced 
+    4a546ac9 4dc5bf11 b1ae1c67 81cb4455 33997f24 9b3f5345 7f861af3 3cfa6d7f 
+    81f5b84a d3f58537 1cb5a6d0 09e4187b 384efa0f 02030100 01a38201 df308201 
+    db303406 082b0601 05050701 01042830 26302406 082b0601 05050730 01861868 
+    7474703a 2f2f6f63 73702e76 65726973 69676e2e 636f6d30 12060355 1d130101 
+    ff040830 060101ff 02010030 70060355 1d200469 30673065 060b6086 480186f8 
+    45010717 03305630 2806082b 06010505 07020116 1c687474 70733a2f 2f777777 
+    2e766572 69736967 6e2e636f 6d2f6370 73302a06 082b0601 05050702 02301e1a 
+    1c687474 70733a2f 2f777777 2e766572 69736967 6e2e636f 6d2f7270 61303406 
+    03551d1f 042d302b 3029a027 a0258623 68747470 3a2f2f63 726c2e76 65726973 
+    69676e2e 636f6d2f 70636133 2d67352e 63726c30 0e060355 1d0f0101 ff040403 
+    02010630 6d06082b 06010505 07010c04 61305fa1 5da05b30 59305730 55160969 
+    6d616765 2f676966 3021301f 30070605 2b0e0302 1a04148f e5d31a86 ac8d8e6b 
+    c3cf806a d448182c 7b192e30 25162368 7474703a 2f2f6c6f 676f2e76 65726973 
+    69676e2e 636f6d2f 76736c6f 676f2e67 69663028 0603551d 11042130 1fa41d30 
+    1b311930 17060355 04031310 56657269 5369676e 4d504b49 2d322d36 301d0603 
+    551d0e04 1604140d 445c1653 44c1827e 1d20ab25 f40163d8 be79a530 1f060355 
+    1d230418 30168014 7fd365a7 c2ddecbb f03009f3 4339fa02 af333133 300d0609 
+    2a864886 f70d0101 05050003 82010100 0c8324ef ddc30cd9 589cfe36 b6eb8a80 
+    4bd1a3f7 9df3cc53 ef829ea3 a1e697c1 589d756c e01d1b4c fad1c12d 05c0ea6e 
+    b2227055 d9203340 3307c265 83fa8f43 379bea0e 9a6c70ee f69c803b d937f47a 
+    6decd018 7d494aca 99c71928 a2bed877 24f78526 866d8705 404167d1 273aeddc 
+    481d22cd 0b0b8bbc f4b17bfd b499a8e9 762ae11a 2d876e74 d388dd1e 22c6df16 
+    b62b8214 0a945cf2 50ecafce ff62370d ad65d306 4153ed02 14c8b558 28a1ace0 
+    5becb37f 954afb03 c8ad26db e6667812 4ad99f42 fbe198e6 42839b8f 8f6724e8 
+    6119b5dd cdb50b26 058ec36e c4c875b8 46cfe218 065ea9ae a8819a47 16de0c28 
+    6c2527b9 deb78458 c61f381e a4c4cb66
+  quit
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+dynamic-access-policy-record DfltAccessPolicy
+!
+class-map icmp-class
+ match default-inspection-traffic
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map icmp_policy
+ class icmp-class
+  inspect icmp 
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect ip-options 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny  
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip  
+  inspect xdmcp 
+!
+service-policy global_policy global
+service-policy icmp_policy interface outside
+prompt hostname context 
+no call-home reporting anonymous
+call-home
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly
+ profile License
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination transport-method http</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="EADS-C00-FW-01" type="SIMPLE" subtype="ASAv" location="635,311">
+        <extensions>
+            <entry key="config" type="String">!
+ASA Version 9.5(2)204 
+!
+hostname EADS-C00-FW-01
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+names
+!
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address 29.2.106.1 255.255.255.252 
+!
+interface GigabitEthernet0/1
+ nameif inside
+ security-level 100
+ ip address 29.2.106.20 255.255.255.248 
+!
+interface Management0/0
+ shutdown
+ no nameif
+ no security-level
+ ip address 10.255.0.125 255.255.0.0 
+!
+ftp mode passive
+pager lines 23
+mtu outside 1500
+mtu inside 1500
+no failover
+no monitor-interface service-module 
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+router ospf 201
+ network 29.2.106.0 255.255.255.252 area 0
+ network 29.2.106.16 255.255.255.248 area 0
+ log-adj-changes
+!
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpoint _SmartCallHome_ServerCA
+ no validation-usage
+ crl configure
+crypto ca trustpool policy
+ auto-import
+crypto ca certificate chain _SmartCallHome_ServerCA
+ certificate ca 6ecc7aa5a7032009b8cebcf4e952d491
+    308205ec 308204d4 a0030201 0202106e cc7aa5a7 032009b8 cebcf4e9 52d49130 
+    0d06092a 864886f7 0d010105 05003081 ca310b30 09060355 04061302 55533117 
+    30150603 55040a13 0e566572 69536967 6e2c2049 6e632e31 1f301d06 0355040b 
+    13165665 72695369 676e2054 72757374 204e6574 776f726b 313a3038 06035504 
+    0b133128 63292032 30303620 56657269 5369676e 2c20496e 632e202d 20466f72 
+    20617574 686f7269 7a656420 75736520 6f6e6c79 31453043 06035504 03133c56 
+    65726953 69676e20 436c6173 73203320 5075626c 69632050 72696d61 72792043 
+    65727469 66696361 74696f6e 20417574 686f7269 7479202d 20473530 1e170d31 
+    30303230 38303030 3030305a 170d3230 30323037 32333539 35395a30 81b5310b 
+    30090603 55040613 02555331 17301506 0355040a 130e5665 72695369 676e2c20 
+    496e632e 311f301d 06035504 0b131656 65726953 69676e20 54727573 74204e65 
+    74776f72 6b313b30 39060355 040b1332 5465726d 73206f66 20757365 20617420 
+    68747470 733a2f2f 7777772e 76657269 7369676e 2e636f6d 2f727061 20286329 
+    3130312f 302d0603 55040313 26566572 69536967 6e20436c 61737320 33205365 
+    63757265 20536572 76657220 4341202d 20473330 82012230 0d06092a 864886f7 
+    0d010101 05000382 010f0030 82010a02 82010100 b187841f c20c45f5 bcab2597 
+    a7ada23e 9cbaf6c1 39b88bca c2ac56c6 e5bb658e 444f4dce 6fed094a d4af4e10 
+    9c688b2e 957b899b 13cae234 34c1f35b f3497b62 83488174 d188786c 0253f9bc 
+    7f432657 5833833b 330a17b0 d04e9124 ad867d64 12dc744a 34a11d0a ea961d0b 
+    15fca34b 3bce6388 d0f82d0c 948610ca b69a3dca eb379c00 48358629 5078e845 
+    63cd1941 4ff595ec 7b98d4c4 71b350be 28b38fa0 b9539cf5 ca2c23a9 fd1406e8 
+    18b49ae8 3c6e81fd e4cd3536 b351d369 ec12ba56 6e6f9b57 c58b14e7 0ec79ced 
+    4a546ac9 4dc5bf11 b1ae1c67 81cb4455 33997f24 9b3f5345 7f861af3 3cfa6d7f 
+    81f5b84a d3f58537 1cb5a6d0 09e4187b 384efa0f 02030100 01a38201 df308201 
+    db303406 082b0601 05050701 01042830 26302406 082b0601 05050730 01861868 
+    7474703a 2f2f6f63 73702e76 65726973 69676e2e 636f6d30 12060355 1d130101 
+    ff040830 060101ff 02010030 70060355 1d200469 30673065 060b6086 480186f8 
+    45010717 03305630 2806082b 06010505 07020116 1c687474 70733a2f 2f777777 
+    2e766572 69736967 6e2e636f 6d2f6370 73302a06 082b0601 05050702 02301e1a 
+    1c687474 70733a2f 2f777777 2e766572 69736967 6e2e636f 6d2f7270 61303406 
+    03551d1f 042d302b 3029a027 a0258623 68747470 3a2f2f63 726c2e76 65726973 
+    69676e2e 636f6d2f 70636133 2d67352e 63726c30 0e060355 1d0f0101 ff040403 
+    02010630 6d06082b 06010505 07010c04 61305fa1 5da05b30 59305730 55160969 
+    6d616765 2f676966 3021301f 30070605 2b0e0302 1a04148f e5d31a86 ac8d8e6b 
+    c3cf806a d448182c 7b192e30 25162368 7474703a 2f2f6c6f 676f2e76 65726973 
+    69676e2e 636f6d2f 76736c6f 676f2e67 69663028 0603551d 11042130 1fa41d30 
+    1b311930 17060355 04031310 56657269 5369676e 4d504b49 2d322d36 301d0603 
+    551d0e04 1604140d 445c1653 44c1827e 1d20ab25 f40163d8 be79a530 1f060355 
+    1d230418 30168014 7fd365a7 c2ddecbb f03009f3 4339fa02 af333133 300d0609 
+    2a864886 f70d0101 05050003 82010100 0c8324ef ddc30cd9 589cfe36 b6eb8a80 
+    4bd1a3f7 9df3cc53 ef829ea3 a1e697c1 589d756c e01d1b4c fad1c12d 05c0ea6e 
+    b2227055 d9203340 3307c265 83fa8f43 379bea0e 9a6c70ee f69c803b d937f47a 
+    6decd018 7d494aca 99c71928 a2bed877 24f78526 866d8705 404167d1 273aeddc 
+    481d22cd 0b0b8bbc f4b17bfd b499a8e9 762ae11a 2d876e74 d388dd1e 22c6df16 
+    b62b8214 0a945cf2 50ecafce ff62370d ad65d306 4153ed02 14c8b558 28a1ace0 
+    5becb37f 954afb03 c8ad26db e6667812 4ad99f42 fbe198e6 42839b8f 8f6724e8 
+    6119b5dd cdb50b26 058ec36e c4c875b8 46cfe218 065ea9ae a8819a47 16de0c28 
+    6c2527b9 deb78458 c61f381e a4c4cb66
+  quit
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+dynamic-access-policy-record DfltAccessPolicy
+!
+class-map icmp-class
+ match default-inspection-traffic
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map icmp_policy
+ class icmp-class
+  inspect icmp 
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect ip-options 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny  
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip  
+  inspect xdmcp 
+!
+service-policy global_policy global
+service-policy icmp_policy interface outside
+prompt hostname context 
+no call-home reporting anonymous
+call-home
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly
+ profile License
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination transport-method http</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="WADS-C00-FW-01" type="SIMPLE" subtype="ASAv" location="854,311">
+        <extensions>
+            <entry key="config" type="String">!
+ASA Version 9.5(2)204 
+!
+hostname WADS-C00-FW-01
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+names
+!
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address 29.2.80.1 255.255.255.252 
+!
+interface GigabitEthernet0/1
+ nameif inside
+ security-level 100
+ ip address 29.2.80.20 255.255.255.248 
+!
+interface Management0/0
+ shutdown
+ no nameif
+ no security-level
+ ip address 10.255.0.120 255.255.0.0 
+!
+ftp mode passive
+pager lines 23
+mtu outside 1500
+mtu inside 1500
+no failover
+no monitor-interface service-module 
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+router ospf 201
+ network 29.2.80.0 255.255.255.252 area 0
+ network 29.2.80.16 255.255.255.248 area 0
+ log-adj-changes
+!
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpoint _SmartCallHome_ServerCA
+ no validation-usage
+ crl configure
+crypto ca trustpool policy
+ auto-import
+crypto ca certificate chain _SmartCallHome_ServerCA
+ certificate ca 6ecc7aa5a7032009b8cebcf4e952d491
+    308205ec 308204d4 a0030201 0202106e cc7aa5a7 032009b8 cebcf4e9 52d49130 
+    0d06092a 864886f7 0d010105 05003081 ca310b30 09060355 04061302 55533117 
+    30150603 55040a13 0e566572 69536967 6e2c2049 6e632e31 1f301d06 0355040b 
+    13165665 72695369 676e2054 72757374 204e6574 776f726b 313a3038 06035504 
+    0b133128 63292032 30303620 56657269 5369676e 2c20496e 632e202d 20466f72 
+    20617574 686f7269 7a656420 75736520 6f6e6c79 31453043 06035504 03133c56 
+    65726953 69676e20 436c6173 73203320 5075626c 69632050 72696d61 72792043 
+    65727469 66696361 74696f6e 20417574 686f7269 7479202d 20473530 1e170d31 
+    30303230 38303030 3030305a 170d3230 30323037 32333539 35395a30 81b5310b 
+    30090603 55040613 02555331 17301506 0355040a 130e5665 72695369 676e2c20 
+    496e632e 311f301d 06035504 0b131656 65726953 69676e20 54727573 74204e65 
+    74776f72 6b313b30 39060355 040b1332 5465726d 73206f66 20757365 20617420 
+    68747470 733a2f2f 7777772e 76657269 7369676e 2e636f6d 2f727061 20286329 
+    3130312f 302d0603 55040313 26566572 69536967 6e20436c 61737320 33205365 
+    63757265 20536572 76657220 4341202d 20473330 82012230 0d06092a 864886f7 
+    0d010101 05000382 010f0030 82010a02 82010100 b187841f c20c45f5 bcab2597 
+    a7ada23e 9cbaf6c1 39b88bca c2ac56c6 e5bb658e 444f4dce 6fed094a d4af4e10 
+    9c688b2e 957b899b 13cae234 34c1f35b f3497b62 83488174 d188786c 0253f9bc 
+    7f432657 5833833b 330a17b0 d04e9124 ad867d64 12dc744a 34a11d0a ea961d0b 
+    15fca34b 3bce6388 d0f82d0c 948610ca b69a3dca eb379c00 48358629 5078e845 
+    63cd1941 4ff595ec 7b98d4c4 71b350be 28b38fa0 b9539cf5 ca2c23a9 fd1406e8 
+    18b49ae8 3c6e81fd e4cd3536 b351d369 ec12ba56 6e6f9b57 c58b14e7 0ec79ced 
+    4a546ac9 4dc5bf11 b1ae1c67 81cb4455 33997f24 9b3f5345 7f861af3 3cfa6d7f 
+    81f5b84a d3f58537 1cb5a6d0 09e4187b 384efa0f 02030100 01a38201 df308201 
+    db303406 082b0601 05050701 01042830 26302406 082b0601 05050730 01861868 
+    7474703a 2f2f6f63 73702e76 65726973 69676e2e 636f6d30 12060355 1d130101 
+    ff040830 060101ff 02010030 70060355 1d200469 30673065 060b6086 480186f8 
+    45010717 03305630 2806082b 06010505 07020116 1c687474 70733a2f 2f777777 
+    2e766572 69736967 6e2e636f 6d2f6370 73302a06 082b0601 05050702 02301e1a 
+    1c687474 70733a2f 2f777777 2e766572 69736967 6e2e636f 6d2f7270 61303406 
+    03551d1f 042d302b 3029a027 a0258623 68747470 3a2f2f63 726c2e76 65726973 
+    69676e2e 636f6d2f 70636133 2d67352e 63726c30 0e060355 1d0f0101 ff040403 
+    02010630 6d06082b 06010505 07010c04 61305fa1 5da05b30 59305730 55160969 
+    6d616765 2f676966 3021301f 30070605 2b0e0302 1a04148f e5d31a86 ac8d8e6b 
+    c3cf806a d448182c 7b192e30 25162368 7474703a 2f2f6c6f 676f2e76 65726973 
+    69676e2e 636f6d2f 76736c6f 676f2e67 69663028 0603551d 11042130 1fa41d30 
+    1b311930 17060355 04031310 56657269 5369676e 4d504b49 2d322d36 301d0603 
+    551d0e04 1604140d 445c1653 44c1827e 1d20ab25 f40163d8 be79a530 1f060355 
+    1d230418 30168014 7fd365a7 c2ddecbb f03009f3 4339fa02 af333133 300d0609 
+    2a864886 f70d0101 05050003 82010100 0c8324ef ddc30cd9 589cfe36 b6eb8a80 
+    4bd1a3f7 9df3cc53 ef829ea3 a1e697c1 589d756c e01d1b4c fad1c12d 05c0ea6e 
+    b2227055 d9203340 3307c265 83fa8f43 379bea0e 9a6c70ee f69c803b d937f47a 
+    6decd018 7d494aca 99c71928 a2bed877 24f78526 866d8705 404167d1 273aeddc 
+    481d22cd 0b0b8bbc f4b17bfd b499a8e9 762ae11a 2d876e74 d388dd1e 22c6df16 
+    b62b8214 0a945cf2 50ecafce ff62370d ad65d306 4153ed02 14c8b558 28a1ace0 
+    5becb37f 954afb03 c8ad26db e6667812 4ad99f42 fbe198e6 42839b8f 8f6724e8 
+    6119b5dd cdb50b26 058ec36e c4c875b8 46cfe218 065ea9ae a8819a47 16de0c28 
+    6c2527b9 deb78458 c61f381e a4c4cb66
+  quit
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+dynamic-access-policy-record DfltAccessPolicy
+!
+class-map icmp-class
+ match default-inspection-traffic
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map icmp_policy
+ class icmp-class
+  inspect icmp 
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect ip-options 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny  
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip  
+  inspect xdmcp 
+!
+service-policy global_policy global
+service-policy icmp_policy interface outside
+prompt hostname context 
+no call-home reporting anonymous
+call-home
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly
+ profile License
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination transport-method http</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="CONR-C00-FW-01" type="SIMPLE" subtype="ASAv" location="1040,329">
+        <extensions>
+            <entry key="config" type="String">!
+ASA Version 9.5(2)204 
+!
+hostname CONR-C00-FW-01
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+names
+!
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address 29.2.132.4 255.255.255.248 
+!
+interface GigabitEthernet0/1
+ nameif inside
+ security-level 100
+ ip address 29.2.132.20 255.255.255.248 
+!
+interface GigabitEthernet0/2
+ shutdown
+ no nameif
+ no security-level
+ no ip address
+!
+interface GigabitEthernet0/3
+ description LAN/STATE Failover Interface
+!
+interface Management0/0
+ shutdown
+ no nameif
+ no security-level
+ ip address 10.255.0.103 255.255.0.0 
+!
+ftp mode passive
+pager lines 23
+mtu outside 1500
+mtu inside 1500
+failover
+failover lan unit primary
+failover lan interface LANFAIL GigabitEthernet0/3
+failover link LANFAIL GigabitEthernet0/3
+failover interface ip LANFAIL 1.1.1.1 255.255.255.0 standby 1.1.1.2
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+router ospf 201
+ router-id 29.2.132.4
+ network 29.2.132.0 255.255.255.248 area 0
+ network 29.2.132.16 255.255.255.248 area 0
+ log-adj-changes
+!
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpoint _SmartCallHome_ServerCA
+ no validation-usage
+ crl configure
+crypto ca trustpool policy
+ auto-import
+crypto ca certificate chain _SmartCallHome_ServerCA
+ certificate ca 6ecc7aa5a7032009b8cebcf4e952d491
+    308205ec 308204d4 a0030201 0202106e cc7aa5a7 032009b8 cebcf4e9 52d49130 
+    0d06092a 864886f7 0d010105 05003081 ca310b30 09060355 04061302 55533117 
+    30150603 55040a13 0e566572 69536967 6e2c2049 6e632e31 1f301d06 0355040b 
+    13165665 72695369 676e2054 72757374 204e6574 776f726b 313a3038 06035504 
+    0b133128 63292032 30303620 56657269 5369676e 2c20496e 632e202d 20466f72 
+    20617574 686f7269 7a656420 75736520 6f6e6c79 31453043 06035504 03133c56 
+    65726953 69676e20 436c6173 73203320 5075626c 69632050 72696d61 72792043 
+    65727469 66696361 74696f6e 20417574 686f7269 7479202d 20473530 1e170d31 
+    30303230 38303030 3030305a 170d3230 30323037 32333539 35395a30 81b5310b 
+    30090603 55040613 02555331 17301506 0355040a 130e5665 72695369 676e2c20 
+    496e632e 311f301d 06035504 0b131656 65726953 69676e20 54727573 74204e65 
+    74776f72 6b313b30 39060355 040b1332 5465726d 73206f66 20757365 20617420 
+    68747470 733a2f2f 7777772e 76657269 7369676e 2e636f6d 2f727061 20286329 
+    3130312f 302d0603 55040313 26566572 69536967 6e20436c 61737320 33205365 
+    63757265 20536572 76657220 4341202d 20473330 82012230 0d06092a 864886f7 
+    0d010101 05000382 010f0030 82010a02 82010100 b187841f c20c45f5 bcab2597 
+    a7ada23e 9cbaf6c1 39b88bca c2ac56c6 e5bb658e 444f4dce 6fed094a d4af4e10 
+    9c688b2e 957b899b 13cae234 34c1f35b f3497b62 83488174 d188786c 0253f9bc 
+    7f432657 5833833b 330a17b0 d04e9124 ad867d64 12dc744a 34a11d0a ea961d0b 
+    15fca34b 3bce6388 d0f82d0c 948610ca b69a3dca eb379c00 48358629 5078e845 
+    63cd1941 4ff595ec 7b98d4c4 71b350be 28b38fa0 b9539cf5 ca2c23a9 fd1406e8 
+    18b49ae8 3c6e81fd e4cd3536 b351d369 ec12ba56 6e6f9b57 c58b14e7 0ec79ced 
+    4a546ac9 4dc5bf11 b1ae1c67 81cb4455 33997f24 9b3f5345 7f861af3 3cfa6d7f 
+    81f5b84a d3f58537 1cb5a6d0 09e4187b 384efa0f 02030100 01a38201 df308201 
+    db303406 082b0601 05050701 01042830 26302406 082b0601 05050730 01861868 
+    7474703a 2f2f6f63 73702e76 65726973 69676e2e 636f6d30 12060355 1d130101 
+    ff040830 060101ff 02010030 70060355 1d200469 30673065 060b6086 480186f8 
+    45010717 03305630 2806082b 06010505 07020116 1c687474 70733a2f 2f777777 
+    2e766572 69736967 6e2e636f 6d2f6370 73302a06 082b0601 05050702 02301e1a 
+    1c687474 70733a2f 2f777777 2e766572 69736967 6e2e636f 6d2f7270 61303406 
+    03551d1f 042d302b 3029a027 a0258623 68747470 3a2f2f63 726c2e76 65726973 
+    69676e2e 636f6d2f 70636133 2d67352e 63726c30 0e060355 1d0f0101 ff040403 
+    02010630 6d06082b 06010505 07010c04 61305fa1 5da05b30 59305730 55160969 
+    6d616765 2f676966 3021301f 30070605 2b0e0302 1a04148f e5d31a86 ac8d8e6b 
+    c3cf806a d448182c 7b192e30 25162368 7474703a 2f2f6c6f 676f2e76 65726973 
+    69676e2e 636f6d2f 76736c6f 676f2e67 69663028 0603551d 11042130 1fa41d30 
+    1b311930 17060355 04031310 56657269 5369676e 4d504b49 2d322d36 301d0603 
+    551d0e04 1604140d 445c1653 44c1827e 1d20ab25 f40163d8 be79a530 1f060355 
+    1d230418 30168014 7fd365a7 c2ddecbb f03009f3 4339fa02 af333133 300d0609 
+    2a864886 f70d0101 05050003 82010100 0c8324ef ddc30cd9 589cfe36 b6eb8a80 
+    4bd1a3f7 9df3cc53 ef829ea3 a1e697c1 589d756c e01d1b4c fad1c12d 05c0ea6e 
+    b2227055 d9203340 3307c265 83fa8f43 379bea0e 9a6c70ee f69c803b d937f47a 
+    6decd018 7d494aca 99c71928 a2bed877 24f78526 866d8705 404167d1 273aeddc 
+    481d22cd 0b0b8bbc f4b17bfd b499a8e9 762ae11a 2d876e74 d388dd1e 22c6df16 
+    b62b8214 0a945cf2 50ecafce ff62370d ad65d306 4153ed02 14c8b558 28a1ace0 
+    5becb37f 954afb03 c8ad26db e6667812 4ad99f42 fbe198e6 42839b8f 8f6724e8 
+    6119b5dd cdb50b26 058ec36e c4c875b8 46cfe218 065ea9ae a8819a47 16de0c28 
+    6c2527b9 deb78458 c61f381e a4c4cb66
+  quit
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+dynamic-access-policy-record DfltAccessPolicy
+!
+class-map icmp-class
+ match default-inspection-traffic
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map icmp_policy
+ class icmp-class
+  inspect icmp 
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect ip-options 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny  
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip  
+  inspect xdmcp 
+!
+service-policy global_policy global
+service-policy icmp_policy interface outside
+prompt hostname context 
+no call-home reporting anonymous
+call-home
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly
+ profile License
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination transport-method http</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+        <interface id="3" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CONR-C00-FW-02" type="SIMPLE" subtype="ASAv" location="1187,329">
+        <extensions>
+            <entry key="config" type="String">!
+ASA Version 9.5(2)204 
+!
+hostname CONR-C00-FW-01
+enable password 8Ry2YjIyt7RRXU24 encrypted
+xlate per-session deny tcp any4 any4
+xlate per-session deny tcp any4 any6
+xlate per-session deny tcp any6 any4
+xlate per-session deny tcp any6 any6
+xlate per-session deny udp any4 any4 eq domain
+xlate per-session deny udp any4 any6 eq domain
+xlate per-session deny udp any6 any4 eq domain
+xlate per-session deny udp any6 any6 eq domain
+names
+!
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address 29.2.132.4 255.255.255.248 
+!
+interface GigabitEthernet0/1
+ nameif inside
+ security-level 100
+ ip address 29.2.132.20 255.255.255.248 
+!
+interface GigabitEthernet0/2
+ shutdown
+ no nameif
+ no security-level
+ no ip address
+!
+interface GigabitEthernet0/3
+ description LAN/STATE Failover Interface
+!
+interface Management0/0
+ shutdown
+ no nameif
+ no security-level
+ ip address 10.255.0.103 255.255.0.0 
+!
+ftp mode passive
+pager lines 23
+mtu outside 1500
+mtu inside 1500
+failover
+failover lan unit secondary
+failover lan interface LANFAIL GigabitEthernet0/3
+failover link LANFAIL GigabitEthernet0/3
+failover interface ip LANFAIL 1.1.1.1 255.255.255.0 standby 1.1.1.2
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+router ospf 201
+ router-id 29.2.132.4
+ network 29.2.132.0 255.255.255.248 area 0
+ network 29.2.132.16 255.255.255.248 area 0
+ log-adj-changes
+!
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+user-identity default-domain LOCAL
+no snmp-server location
+no snmp-server contact
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpoint _SmartCallHome_ServerCA
+ no validation-usage
+ crl configure
+crypto ca trustpool policy
+ auto-import
+crypto ca certificate chain _SmartCallHome_ServerCA
+ certificate ca 6ecc7aa5a7032009b8cebcf4e952d491
+    308205ec 308204d4 a0030201 0202106e cc7aa5a7 032009b8 cebcf4e9 52d49130 
+    0d06092a 864886f7 0d010105 05003081 ca310b30 09060355 04061302 55533117 
+    30150603 55040a13 0e566572 69536967 6e2c2049 6e632e31 1f301d06 0355040b 
+    13165665 72695369 676e2054 72757374 204e6574 776f726b 313a3038 06035504 
+    0b133128 63292032 30303620 56657269 5369676e 2c20496e 632e202d 20466f72 
+    20617574 686f7269 7a656420 75736520 6f6e6c79 31453043 06035504 03133c56 
+    65726953 69676e20 436c6173 73203320 5075626c 69632050 72696d61 72792043 
+    65727469 66696361 74696f6e 20417574 686f7269 7479202d 20473530 1e170d31 
+    30303230 38303030 3030305a 170d3230 30323037 32333539 35395a30 81b5310b 
+    30090603 55040613 02555331 17301506 0355040a 130e5665 72695369 676e2c20 
+    496e632e 311f301d 06035504 0b131656 65726953 69676e20 54727573 74204e65 
+    74776f72 6b313b30 39060355 040b1332 5465726d 73206f66 20757365 20617420 
+    68747470 733a2f2f 7777772e 76657269 7369676e 2e636f6d 2f727061 20286329 
+    3130312f 302d0603 55040313 26566572 69536967 6e20436c 61737320 33205365 
+    63757265 20536572 76657220 4341202d 20473330 82012230 0d06092a 864886f7 
+    0d010101 05000382 010f0030 82010a02 82010100 b187841f c20c45f5 bcab2597 
+    a7ada23e 9cbaf6c1 39b88bca c2ac56c6 e5bb658e 444f4dce 6fed094a d4af4e10 
+    9c688b2e 957b899b 13cae234 34c1f35b f3497b62 83488174 d188786c 0253f9bc 
+    7f432657 5833833b 330a17b0 d04e9124 ad867d64 12dc744a 34a11d0a ea961d0b 
+    15fca34b 3bce6388 d0f82d0c 948610ca b69a3dca eb379c00 48358629 5078e845 
+    63cd1941 4ff595ec 7b98d4c4 71b350be 28b38fa0 b9539cf5 ca2c23a9 fd1406e8 
+    18b49ae8 3c6e81fd e4cd3536 b351d369 ec12ba56 6e6f9b57 c58b14e7 0ec79ced 
+    4a546ac9 4dc5bf11 b1ae1c67 81cb4455 33997f24 9b3f5345 7f861af3 3cfa6d7f 
+    81f5b84a d3f58537 1cb5a6d0 09e4187b 384efa0f 02030100 01a38201 df308201 
+    db303406 082b0601 05050701 01042830 26302406 082b0601 05050730 01861868 
+    7474703a 2f2f6f63 73702e76 65726973 69676e2e 636f6d30 12060355 1d130101 
+    ff040830 060101ff 02010030 70060355 1d200469 30673065 060b6086 480186f8 
+    45010717 03305630 2806082b 06010505 07020116 1c687474 70733a2f 2f777777 
+    2e766572 69736967 6e2e636f 6d2f6370 73302a06 082b0601 05050702 02301e1a 
+    1c687474 70733a2f 2f777777 2e766572 69736967 6e2e636f 6d2f7270 61303406 
+    03551d1f 042d302b 3029a027 a0258623 68747470 3a2f2f63 726c2e76 65726973 
+    69676e2e 636f6d2f 70636133 2d67352e 63726c30 0e060355 1d0f0101 ff040403 
+    02010630 6d06082b 06010505 07010c04 61305fa1 5da05b30 59305730 55160969 
+    6d616765 2f676966 3021301f 30070605 2b0e0302 1a04148f e5d31a86 ac8d8e6b 
+    c3cf806a d448182c 7b192e30 25162368 7474703a 2f2f6c6f 676f2e76 65726973 
+    69676e2e 636f6d2f 76736c6f 676f2e67 69663028 0603551d 11042130 1fa41d30 
+    1b311930 17060355 04031310 56657269 5369676e 4d504b49 2d322d36 301d0603 
+    551d0e04 1604140d 445c1653 44c1827e 1d20ab25 f40163d8 be79a530 1f060355 
+    1d230418 30168014 7fd365a7 c2ddecbb f03009f3 4339fa02 af333133 300d0609 
+    2a864886 f70d0101 05050003 82010100 0c8324ef ddc30cd9 589cfe36 b6eb8a80 
+    4bd1a3f7 9df3cc53 ef829ea3 a1e697c1 589d756c e01d1b4c fad1c12d 05c0ea6e 
+    b2227055 d9203340 3307c265 83fa8f43 379bea0e 9a6c70ee f69c803b d937f47a 
+    6decd018 7d494aca 99c71928 a2bed877 24f78526 866d8705 404167d1 273aeddc 
+    481d22cd 0b0b8bbc f4b17bfd b499a8e9 762ae11a 2d876e74 d388dd1e 22c6df16 
+    b62b8214 0a945cf2 50ecafce ff62370d ad65d306 4153ed02 14c8b558 28a1ace0 
+    5becb37f 954afb03 c8ad26db e6667812 4ad99f42 fbe198e6 42839b8f 8f6724e8 
+    6119b5dd cdb50b26 058ec36e c4c875b8 46cfe218 065ea9ae a8819a47 16de0c28 
+    6c2527b9 deb78458 c61f381e a4c4cb66
+  quit
+telnet timeout 5
+ssh stricthostkeycheck
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+dynamic-access-policy-record DfltAccessPolicy
+!
+class-map icmp-class
+ match default-inspection-traffic
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map icmp_policy
+ class icmp-class
+  inspect icmp 
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect ip-options 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny  
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip  
+  inspect xdmcp 
+!
+service-policy global_policy global
+service-policy icmp_policy interface outside
+prompt hostname context 
+no call-home reporting anonymous
+call-home
+ profile License
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination transport-method http
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+        <interface id="3" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="CMAF-C00-CS-01" type="SIMPLE" subtype="Unmanaged Switch" location="173,378">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="PAFB-C00-CS-01" type="SIMPLE" subtype="Unmanaged Switch" location="423,378">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="EADS-C00-CS-01" type="SIMPLE" subtype="Unmanaged Switch" location="637,378">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="WADS-C00-CS-01" type="SIMPLE" subtype="Unmanaged Switch" location="856,378">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="CONR-C00-CS-01" type="SIMPLE" subtype="Unmanaged Switch" location="1041,396">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="CONR-C00-CS-02" type="SIMPLE" subtype="Unmanaged Switch" location="1188,396">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="CONR-C00-PS-01" type="SIMPLE" subtype="Unmanaged Switch" location="1042,283">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="CONR-C00-PS-02" type="SIMPLE" subtype="Unmanaged Switch" location="1189,283">
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+    </node>
+    <node name="google" type="SIMPLE" subtype="IOSv" location="689,21">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 00:10:58 UTC Wed Jun 29 2016
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname google
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 8.8.8.8 255.255.255.255
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.18 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 300
+ bgp router-id 8.8.8.8
+ bgp log-neighbor-changes
+ network 8.8.8.8 mask 255.255.255.255
+ neighbor 10.0.0.17 remote-as 27062
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.0.0.17
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="lxc-tiny-1" type="SIMPLE" subtype="lxc-tiny" location="239,667"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[7]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[5]"/>
+    <connection dst="/virl:topology/virl:node[8]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[8]/virl:interface[3]" src="/virl:topology/virl:node[7]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[16]/virl:interface[2]" src="/virl:topology/virl:node[9]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[2]" src="/virl:topology/virl:node[17]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[2]" src="/virl:topology/virl:node[14]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[2]" src="/virl:topology/virl:node[10]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[12]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[17]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[14]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[5]"/>
+    <connection dst="/virl:topology/virl:node[10]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[12]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[7]"/>
+    <connection dst="/virl:topology/virl:node[13]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[8]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[9]"/>
+    <connection dst="/virl:topology/virl:node[16]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[10]"/>
+    <connection dst="/virl:topology/virl:node[25]/virl:interface[1]" src="/virl:topology/virl:node[15]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[25]/virl:interface[2]" src="/virl:topology/virl:node[14]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[2]" src="/virl:topology/virl:node[19]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[19]/virl:interface[2]" src="/virl:topology/virl:node[25]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[17]/virl:interface[1]" src="/virl:topology/virl:node[26]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[1]" src="/virl:topology/virl:node[26]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[2]" src="/virl:topology/virl:node[20]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[26]/virl:interface[3]" src="/virl:topology/virl:node[20]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[1]" src="/virl:topology/virl:node[27]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[10]/virl:interface[1]" src="/virl:topology/virl:node[27]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[2]" src="/virl:topology/virl:node[21]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[27]/virl:interface[3]" src="/virl:topology/virl:node[21]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[29]/virl:interface[1]" src="/virl:topology/virl:node[23]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[24]/virl:interface[3]" src="/virl:topology/virl:node[23]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[30]/virl:interface[1]" src="/virl:topology/virl:node[24]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[2]" src="/virl:topology/virl:node[22]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[28]/virl:interface[1]" src="/virl:topology/virl:node[12]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[28]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[29]/virl:interface[2]" src="/virl:topology/virl:node[9]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[30]/virl:interface[2]" src="/virl:topology/virl:node[16]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[30]/virl:interface[3]" src="/virl:topology/virl:node[29]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[28]/virl:interface[3]" src="/virl:topology/virl:node[22]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[31]/virl:interface[1]" src="/virl:topology/virl:node[7]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[32]/virl:interface[1]" src="/virl:topology/virl:node[8]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[31]/virl:interface[2]" src="/virl:topology/virl:node[23]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[32]/virl:interface[2]" src="/virl:topology/virl:node[24]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[32]/virl:interface[3]" src="/virl:topology/virl:node[31]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[33]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[7]"/>
+    <connection dst="/virl:topology/virl:node[17]/virl:interface[4]" src="/virl:topology/virl:node[15]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[4]" src="/virl:topology/virl:node[14]/virl:interface[4]"/>
+</topology>
