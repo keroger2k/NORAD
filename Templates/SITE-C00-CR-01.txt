@@ -29,8 +29,6 @@
 !	CONR: 100, WADS: 200, EADS: 300, CMAFS: 400, PAFB: 500
 !
 !*******************************************************************
-
-
 !
 hostname <SITE>-C00-CR-01
 !
@@ -92,17 +90,14 @@ router bgp <SITE-ASN>
 !
 ip bgp-community new-format
 !
-ip community-list standard CONR_CIDR permit 100:100
-ip community-list standard WADS_CIDR permit 200:200
-ip community-list standard EADS_CIDR permit 300:300
-ip community-list standard CMAF_CIDR permit 400:400
-ip community-list standard PAFB_CIDR permit 500:500
+ip community-list standard <SITE>_CIDR permit 100:<SITE-COMMUNITY>
+ip community-list standard <SITE>_DEFAULT permit 0:<SITE-COMMUNITY>
 !
-ip community-list standard CONR_DEFAULT permit 100:0
-ip community-list standard WADS_DEFAULT permit 200:0
-ip community-list standard EADS_DEFAULT permit 300:0
-ip community-list standard PAFB_DEFAULT permit 500:0
-ip community-list standard CMAF_DEFAULT permit 400:0
+ip community-list standard PAFB_DEFAULT permit 0:500
+ip community-list standard CMAF_DEFAULT permit 0:400
+!
+ip community-list expanded SITE-CIDRS permit 100:.*
+!
 !
 ip route S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> <SITE-NET-AGG-SUMM-MASK> Null0 name <SITE>-CIDR1
 !
@@ -114,38 +109,17 @@ ip route S1.S2.<SITE-CIDR>.<SITE-PR-L0-IP> 255.255.255.255 S1.S2.<SITE-CIDR>.<SI
 !
 ip route <REMOTE-INTERFACE-CONNECTED-TO-TACLANE-IP>	255.255.255.255 S1.S2.<SITE-CIDR>.<LOCAL-TACLANE-INTERFACE-IP> name <REMOTE-SITE>-CR-01:Tunnel
 !
-!
-route-map SITES-BGP-IN permit 100
- description Continental NORAD Region CIDR Block Advertisement
- match community CONR_CIDR
+route-map SITES-BGP-IN permit 10
+ description All remote sites CIDR Block Advertisements
+ match community SITES_CIDR
  set local-preference 500
 !
-route-map SITES-BGP-IN permit 200
- description Western Air Defense Sector CIDR Block Advertisement
- match community WADS_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 300
- description Eastern Air Defense Sector CIDR Block Advertisement
- match community EADS_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 400
- description Cheyenne Mountain CIDR Block Advertisement
- match community CMAF_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 410
+route-map SITES-BGP-IN permit 20
  description CMAF Default Route
  match community CMAF_DEFAULT
  set local-preference 300
 !
-route-map SITES-BGP-IN permit 500
- description Peterson CIDR Block Advertisement
- match community PAFB_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 510
+route-map SITES-BGP-IN permit 30
  description Peterson Default route
  match community PAFB_DEFAULT
  set local-preference 400
@@ -164,5 +138,5 @@ route-map PREM-BGP-IN permit 10
 !
 route-map <SITE>-COMMUNITY permit 10
  set local-preference 500
- set community <SITE-COMMUNITY>:<SITE-COMMUNITY>
+ set community 100:<SITE-COMMUNITY>
 !

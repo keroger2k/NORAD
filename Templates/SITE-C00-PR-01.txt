@@ -43,7 +43,7 @@ router bgp <SITE-ASN>
  neighbor <DISA-EBGP-NEIGHBOR-IP> route-map <SITE>-BGP-OUT out
 !
 ip bgp-community new-format
-ip community-list standard <SITE>_CIDR permit <SITE-COMMUNITY>:<SITE-COMMUNITY>
+ip community-list standard <SITE>_CIDR permit 100:<SITE-COMMUNITY>
 !
 ! REPEAT ROUTE FOR EACH NETWORK AGGREGATE
 ip route S1.S2.<CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CIDR1
@@ -59,5 +59,5 @@ route-map <SITE>-BGP-OUT deny 20
 !
 route-map <SITE>-DEFAULT permit 10
  match ip address prefix-list DEFAULT-ONLY
- set community <SITE-COMMUNITY>:0
+ set community 0:<SITE-COMMUNITY>
 !
