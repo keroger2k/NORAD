@@ -43,8 +43,7 @@ router bgp <SITE-ASN>
 ip bgp-community new-format
 ip community-list standard <SITE>_CIDR permit 100:<SITE-COMMUNITY>
 !
-! REPEAT ROUTE FOR EACH NETWORK AGGREGATE
-ip route S1.S2.<CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CIDR1
+ip route S1.S2.<CIDR>.<CR01-LOOPBACK0> 255.255.255.255 S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CR-01-L0
 !
 ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
 !

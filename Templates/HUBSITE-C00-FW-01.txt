@@ -3,16 +3,8 @@ hostname SITE-C00-FW-01
 !
 route outside 0.0.0.0 0.0.0.0 <SITE-PR-01-INTERFACE-IP>
 !
-!
-!**************************************************************** 
-!* Repeat routes for additional CIDR allocation all sites.
-!**************************************************************** 
+router ospf 201
+ network <SITE-CR-01-INTERFACE-IP> 255.255.255.255 area 0
 !
 route outside  S1.S2.<SITE-PR-L0> 255.255.255.255 <SITE-PR-INTERFACE>
-!
-route inside  S1.S2.<CMAF-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
-route inside  S1.S2.<PAFB-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
-route inside  S1.S2.<EADS-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
-route inside  S1.S2.<WADS-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
-route inside  S1.S2.<CONR-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
 !

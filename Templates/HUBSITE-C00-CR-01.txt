@@ -52,6 +52,12 @@ interface Tunnel<TUNNEL-NUMBER>
  tunnel path-mtu-discovery
  tunnel path-mtu-discovery age-timer 30
 !
+router ospf 201
+  redistribute bgp <SITE-ASN> subnets
+  passive-interface default
+  no passive-interface <LOCAL-INTERFACE-CONNECTED-TO-FIREWALL>
+  network <LOCAL-FW-INTERFACE-IP> 0.0.0.0 area 0
+!
 router bgp <SITE-ASN>
  bgp log-neighbor-changes
  network S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> mask <SITE-NET-AGG-SUMM-MASK> route-map <SITE>-COMMUNITY
@@ -83,6 +89,7 @@ router bgp <SITE-ASN>
  neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> password <IBGP-PASSWORD>
  neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> update-source Loopback0
  neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> timers 10 30
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> next-hop-self
  neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> send-community
  neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> soft-reconfiguration inbound
  neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> route-map PREM-BGP-IN in
