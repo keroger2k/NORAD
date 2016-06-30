@@ -1,0 +1,63 @@
+
+!*******************************************************************
+! Device: Site Premise Router (PR at EADS, CONR, WADS)
+!
+! Main Purpose:
+! 		- EBGP Peering with DISA SIPRNet
+!		- IBGP Peering with Local Site Core Routers (CR01 & CR02)
+!		- Marking default route from DISA with SITE Community
+!		- Prepending AS to SITE CIDR for announcement to DISA as primary path.
+!				- Single AS path prepended at local site
+!				- Two AS paths prepended at primary failover site
+!				- Three AS paths prepended at secondary failover site
+!		- Only allow network aggregates announced by core to be sent to DISA;  Deny 
+!		  everything else.
+!*******************************************************************
+
+!
+hostname <SITE>-C00-PR-01
+!
+interface Loopback0
+ description <== iBGP Loopback Source ==>
+ ip address S1.S2.<CIDR>.254 255.255.255.255
+!
+router bgp <SITE-ASN>
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> remote-as <SITE-ASN>
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> description <== iBGP Connection to CR-01 ==>
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> password <BGP-PASSWORD>
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> timers 10 30
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> next-hop-self
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> send-community
+ neighbor S1.S2.<CIDR>.<CR01-Loopback0> soft-reconfiguration inbound
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> remote-as <SITE-ASN>
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> description <== iBGP Connection to CR-02 ==>
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> password <BGP-PASSWORD>
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> timers 10 30
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> next-hop-self
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> send-community
+ neighbor S1.S2.<CIDR>.<CR02-Loopback0> soft-reconfiguration inbound
+ neighbor <DISA-EBGP-NEIGHBOR-IP> remote-as <DISA-ASN>
+ neighbor <DISA-EBGP-NEIGHBOR-IP> description <== Connection to DISA ==>
+ neighbor <DISA-EBGP-NEIGHBOR-IP> password <BGP-PASSWORD>
+ neighbor <DISA-EBGP-NEIGHBOR-IP> route-map <SITE>-DEFAULT in
+ neighbor <DISA-EBGP-NEIGHBOR-IP> route-map <SITE>-BGP-OUT out
+!
+ip bgp-community new-format
+ip community-list standard <SITE>_CIDR permit <SITE-COMMUNITY>:<SITE-COMMUNITY>
+!
+! REPEAT ROUTE FOR EACH NETWORK AGGREGATE
+ip route S1.S2.<CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CIDR1
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+route-map <SITE>-BGP-OUT permit 10
+ match community <SITE>_CIDR
+ set as-path prepend <SITE-ASN>
+!
+route-map <SITE>-BGP-OUT deny 20
+ description denies all prefixes except network aggregates
+!
+route-map <SITE>-DEFAULT permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ set community <SITE-COMMUNITY>:0
+!

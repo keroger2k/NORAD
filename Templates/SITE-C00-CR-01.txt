@@ -1,0 +1,168 @@
+
+!*******************************************************************
+! Device: Site Core Router 01 (PR at EADS, CONR, WADS)
+!
+! Main Purpose:
+! 		- GRE tunnel interface creation for full mesh connectivity between all sites.
+! 		- eBGP Peering to establish full mesh connectivity between all sites.
+!		- iBGP Peering with PR to allow default route from DISA to be propagated to
+!		  core and to allow network aggregates to propagate to PR for advertisements
+!		  to DISA with appropriate AS-PATH prending.
+!		- Generate aggregate summary routes to exchange with all remote sites and DISA.
+!		- Mark all aggregate summary routes with correct BGP community.
+!		- Allow PAFB, CMAF and remote sites aggregate summaries into BGP via eBGP neighbors 
+! 	 	  over tunnel interfaces.
+!		- Allow PAFB, CMAF default route into BGP via eBGP neighbors over tunnel interfaces.
+! 		- Assign LOCAL_PREF for default routes learned from DISA, PAFB and CMAF.
+!
+!	Interface Numbering Key:
+!
+!	1st digit: 	Originating site
+!	2nd digit: 	Destination Site
+!	3rd digit: 	Numeric Designation of Destination Core Router
+!
+!	CONR: 1, WADS: 2, EADS: 3, CMAFS: 4, PAFB: 5
+!
+!	Example: Interface Loopback351 = From EADS to PAFB Core Router 1
+!
+!	BGP community values and route map numeric Sequencing also follow similarly;
+!	CONR: 100, WADS: 200, EADS: 300, CMAFS: 400, PAFB: 500
+!
+!*******************************************************************
+
+
+!
+hostname <SITE>-C00-CR-01
+!
+interface Loopback0
+ description <== iBGP Peering Loopback ==> 
+ ip address S1.S2.<SITE-CIDR>.241 255.255.255.255
+!
+!**************************************************************** 
+!* Repeat tunnel interfaces until full mesh is established.
+!**************************************************************** 
+!
+interface Tunnel<TUNNEL-NUMBER>
+ description <== <SITE>-CR01 to <REMOTE-SITE>-CR01 ==>
+ ip address <LOCAL-TUNNEL-IP-ADDRESS> 255.255.255.254
+ no ip redirects
+ keepalive 5 3
+ ip mtu 1396
+ ip tcp adjust-mss 1360
+ tunnel source <LOCAL-INTERFACE-CONNECTED-TO-TACLANE-IP>
+ tunnel destination <REMOTE-INTERFACE-CONNECTED-TO-TACLANE-IP>	
+ tunnel path-mtu-discovery
+ tunnel path-mtu-discovery age-timer 30
+!
+router bgp <SITE-ASN>
+ bgp log-neighbor-changes
+ network S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> mask <SITE-NET-AGG-SUMM-MASK> route-map <SITE>-COMMUNITY
+ aggregate-address S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> <SITE-NET-AGG-SUMM-MASK> summary-only
+ neighbor SITES-BGP peer-group
+ neighbor SITES-BGP description Inbound/Outbound Routing Policies
+ neighbor SITES-BGP password <EBGP-PASSWORD>
+ neighbor SITES-BGP timers 10 30
+ neighbor SITES-BGP send-community
+ neighbor SITES-BGP soft-reconfiguration inbound
+ neighbor SITES-BGP route-map SITES-BGP-IN in
+ neighbor SITES-BGP route-map SITES-BGP-OUT out
+!
+!**************************************************************** 
+!* Repeat the next 3 lines for each tunnel interface created above.
+!**************************************************************** 
+!
+ neighbor <REMOTE-TUNNEL-IP-ADDRESS> remote-as <REMOTE-SITE-ASN>
+ neighbor <REMOTE-TUNNEL-IP-ADDRESS> peer-group SITES-BGP
+ neighbor <REMOTE-TUNNEL-IP-ADDRESS> description <REMOTE-SITE> CR01 eBGP Neighbor
+! 
+ neighbor S1.S2.<SITE-CIDR>.<SITE-CR02-L0-IP> remote-as <SITE-ASN>
+ neighbor S1.S2.<SITE-CIDR>.<SITE-CR02-L0-IP> description <== iBGP Connection to CR-02 ==>
+ neighbor S1.S2.<SITE-CIDR>.<SITE-CR02-L0-IP> password <IBGP-PASSWORD>
+ neighbor S1.S2.<SITE-CIDR>.<SITE-CR02-L0-IP> update-source Loopback0
+!
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> remote-as <SITE-ASN>
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> description <== iBGP Connection to PR-01 ==>
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> password <IBGP-PASSWORD>
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> update-source Loopback0
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> timers 10 30
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> send-community
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> soft-reconfiguration inbound
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> route-map PREM-BGP-IN in
+ neighbor S1.S2.<SITE-CIDR>.<SITE-PR01-L0-IP> route-map PREM-BGP-OUT out
+!
+ip bgp-community new-format
+!
+ip community-list standard CONR_CIDR permit 100:100
+ip community-list standard WADS_CIDR permit 200:200
+ip community-list standard EADS_CIDR permit 300:300
+ip community-list standard CMAF_CIDR permit 400:400
+ip community-list standard PAFB_CIDR permit 500:500
+!
+ip community-list standard CONR_DEFAULT permit 100:0
+ip community-list standard WADS_DEFAULT permit 200:0
+ip community-list standard EADS_DEFAULT permit 300:0
+ip community-list standard PAFB_DEFAULT permit 500:0
+ip community-list standard CMAF_DEFAULT permit 400:0
+!
+ip route S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> <SITE-NET-AGG-SUMM-MASK> Null0 name <SITE>-CIDR1
+!
+ip route S1.S2.<SITE-CIDR>.<SITE-PR-L0-IP> 255.255.255.255 S1.S2.<SITE-CIDR>.<SITE-FW-INSIDE-INTERFACE> name <SITE>-PR-01-L0
+!
+!**************************************************************** 
+!* Repeat route for each tunnel destination IP address
+!**************************************************************** 
+!
+ip route <REMOTE-INTERFACE-CONNECTED-TO-TACLANE-IP>	255.255.255.255 S1.S2.<SITE-CIDR>.<LOCAL-TACLANE-INTERFACE-IP> name <REMOTE-SITE>-CR-01:Tunnel
+!
+!
+route-map SITES-BGP-IN permit 100
+ description Continental NORAD Region CIDR Block Advertisement
+ match community CONR_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 200
+ description Western Air Defense Sector CIDR Block Advertisement
+ match community WADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 300
+ description Eastern Air Defense Sector CIDR Block Advertisement
+ match community EADS_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 400
+ description Cheyenne Mountain CIDR Block Advertisement
+ match community CMAF_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 410
+ description CMAF Default Route
+ match community CMAF_DEFAULT
+ set local-preference 300
+!
+route-map SITES-BGP-IN permit 500
+ description Peterson CIDR Block Advertisement
+ match community PAFB_CIDR
+ set local-preference 500
+!
+route-map SITES-BGP-IN permit 510
+ description Peterson Default route
+ match community PAFB_DEFAULT
+ set local-preference 400
+!
+route-map PREM-BGP-OUT permit 10
+ description Allow local network aggregate to PR
+ match community <SITE>_CIDR
+!
+route-map SITES-BGP-OUT permit 10
+ description <SITE> CIDR Block Advertisement
+ match community <SITE>_CIDR
+!
+route-map PREM-BGP-IN permit 10
+ match community <SITE>_DEFAULT
+ set local-preference 500
+!
+route-map <SITE>-COMMUNITY permit 10
+ set local-preference 500
+ set community <SITE-COMMUNITY>:<SITE-COMMUNITY>
+!
