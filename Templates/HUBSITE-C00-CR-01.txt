@@ -93,9 +93,6 @@ ip bgp-community new-format
 ip community-list standard <SITE>_CIDR permit 100:<SITE-COMMUNITY>
 ip community-list standard <SITE>_DEFAULT permit 0:<SITE-COMMUNITY>
 !
-ip community-list standard PAFB_DEFAULT permit 0:500
-ip community-list standard CMAF_DEFAULT permit 0:400
-!
 ip community-list expanded SITE_CIDRS permit 100:.*
 !
 !
@@ -111,26 +108,18 @@ ip route <REMOTE-INTERFACE-CONNECTED-TO-TACLANE-IP>	255.255.255.255 S1.S2.<SITE-
 !
 route-map SITES-BGP-IN permit 10
  description All remote sites CIDR Block Advertisements
- match community SITES_CIDR
+ match community SITE_CIDRS
  set local-preference 500
 !
-route-map SITES-BGP-IN permit 20
- description CMAF Default Route
- match community CMAF_DEFAULT
- set local-preference 300
+route-map SITES-BGP-OUT permit 10
+ match community <SITE>_CIDR
 !
-route-map SITES-BGP-IN permit 30
- description Peterson Default route
- match community PAFB_DEFAULT
- set local-preference 400
+route-map SITES-BGP-OUT permit 20
+ match community <SITE>_DEFAULT
 !
 route-map PREM-BGP-OUT permit 10
  description Allow local network aggregate to PR
- match community <SITE>_CIDR
-!
-route-map SITES-BGP-OUT permit 10
- description <SITE> CIDR Block Advertisement
- match community <SITE>_CIDR
+ match community SITE_CIDRS
 !
 route-map PREM-BGP-IN permit 10
  match community <SITE>_DEFAULT

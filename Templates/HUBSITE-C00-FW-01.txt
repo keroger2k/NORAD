@@ -1,0 +1,16 @@
+!
+hostname SITE-C00-FW-01
+!
+route outside 0.0.0.0 0.0.0.0 <SITE-PR-01-INTERFACE-IP>
+!
+!
+!**************************************************************** 
+!* Repeat routes for additional CIDR allocation all sites.
+!**************************************************************** 
+!
+route inside  S1.S2.<CMAF-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
+route inside  S1.S2.<PAFB-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
+route inside  S1.S2.<EADS-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
+route inside  S1.S2.<WADS-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
+route inside  S1.S2.<CONR-CIDR1>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
+!

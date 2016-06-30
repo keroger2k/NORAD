@@ -1,11 +1,15 @@
 
 !*******************************************************************
-! Device: Site Premise Router (PR at EADS, CONR, WADS)
+! Device: Site Premise Router (PR at CMAF or PAFB)
 !
 ! Main Purpose:
 ! 		- EBGP Peering with DISA SIPRNet
 !		- IBGP Peering with Local Site Core Routers (CR01 & CR02)
 !		- Marking default route from DISA with SITE Community
+!		- Prepending AS to SITE CIDR for announcement to DISA as primary path.
+!				- Zero AS path prepended at local site
+!				- One AS path prepended at primary failover site
+!				- Two AS paths prepended at secondary failover site
 !		- Only allow network aggregates announced by core to be sent to DISA;  Deny 
 !		  everything else.
 !*******************************************************************
@@ -41,17 +45,39 @@ router bgp <SITE-ASN>
  neighbor <DISA-EBGP-NEIGHBOR-IP> route-map <SITE>-BGP-OUT out
 !
 ip bgp-community new-format
+!
 ip community-list standard <SITE>_CIDR permit 100:<SITE-COMMUNITY>
 !
-! REPEAT ROUTE FOR EACH NETWORK AGGREGATE
-ip route S1.S2.<CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CIDR1
+ip community-list expanded SITE_CIDRS permit 100:.*
+!
+!
+!**************************************************************** 
+!* REPEAT ROUTE FOR EACH NETWORK AGGREGATE
+!**************************************************************** 
+!
+ip route S1.S2.<CMAF-CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name CMAF-CIDR1
+ip route S1.S2.<PAFB-CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name PAFB-CIDR1
+ip route S1.S2.<EADS-CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name EADS-CIDR1
+ip route S1.S2.<CONR-CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name CONR-CIDR1
+ip route S1.S2.<WADS-CIDR>.<NETWORK> <SITE-NETWORK-MASK> S1.S2.<CIDR>.<FW-OUTSIDE-IP> name WADS-CIDR1
 !
 ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
 !
 route-map <SITE>-BGP-OUT permit 10
  match community <SITE>_CIDR
 !
-route-map <SITE>-BGP-OUT deny 20
+route-map <SITE>-BGP-OUT permit 20
+ match community SITE_CIDRS
+!
+!Uncomment below for primary
+!
+!set as-path prepend <SITE-ASN>
+!
+!Uncomment below for secondary
+!
+!set as-path prepend <SITE-ASN> <SITE-ASN>
+!
+route-map <SITE>-BGP-OUT deny 30
  description denies all prefixes except network aggregates
 !
 route-map <SITE>-DEFAULT permit 10
