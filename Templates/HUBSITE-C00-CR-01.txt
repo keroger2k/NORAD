@@ -61,7 +61,6 @@ router ospf 201
 router bgp <SITE-ASN>
  bgp log-neighbor-changes
  network S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> mask <SITE-NET-AGG-SUMM-MASK> route-map <SITE>-COMMUNITY
- aggregate-address S1.S2.<SITE-CIDR>.<SITE-NET-AGG-SUMM> <SITE-NET-AGG-SUMM-MASK> summary-only
  neighbor SITES-BGP peer-group
  neighbor SITES-BGP description Inbound/Outbound Routing Policies
  neighbor SITES-BGP password <EBGP-PASSWORD>
