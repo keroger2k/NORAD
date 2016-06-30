@@ -109,7 +109,6 @@ ip route <REMOTE-INTERFACE-CONNECTED-TO-TACLANE-IP>	255.255.255.255 S1.S2.<SITE-
 route-map SITES-BGP-IN permit 10
  description All remote sites CIDR Block Advertisements
  match community SITE_CIDRS
- set local-preference 500
 !
 route-map SITES-BGP-OUT permit 10
  match community <SITE>_CIDR
