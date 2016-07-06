@@ -53,7 +53,7 @@ interface Tunnel<TUNNEL-NUMBER>
  tunnel path-mtu-discovery age-timer 30
 !
 router ospf 201
-  redistribute bgp <SITE-ASN> subnets
+  redistribute bgp <SITE-ASN> metric 100 subnets route-map SITES-BGP-IN
   passive-interface default
   no passive-interface <LOCAL-INTERFACE-CONNECTED-TO-FIREWALL>
   network <LOCAL-FW-INTERFACE-IP> 0.0.0.0 area 0
