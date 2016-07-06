@@ -75,4 +75,5 @@ route-map SITE-BGP-OUT deny 30
 route-map SITE-DEFAULT-IN permit 10
  match ip address prefix-list DEFAULT-ONLY
  set community 0:<SITE-COMMUNITY>
+ set local-preference 500
 !
