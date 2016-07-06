@@ -1,8 +1,15 @@
 !
+
 hostname SITE-C00-FW-01
+
 !
+
 route outside 0.0.0.0 0.0.0.0 <SITE-PR-01-INTERFACE-IP>
+
 route outside  S1.S2.<SITE-PR-L0> 255.255.255.255 <SITE-PR-INTERFACE>
+
 !
+
 route inside  S1.S2.<CIDR>.<NETWORK> <SITE-NETWORK-MASK> <CORE-ROUTERS-HSRP-VIP>
+
 !
