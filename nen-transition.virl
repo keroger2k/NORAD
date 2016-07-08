@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.9" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.9/virl.xsd">
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
     <extensions>
         <entry key="management_network" type="String">flat</entry>
     </extensions>
     <node name="DISA" type="SIMPLE" subtype="IOSv" location="695,145">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 18:27:22 UTC Tue Jul 5 2016
+! Last configuration change at 06:35:55 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -68,7 +68,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.176 255.255.255.0
+ ip address 172.16.1.64 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -219,7 +219,7 @@ end</entry>
     <node name="L3VPN" type="SIMPLE" subtype="IOSv" location="692,641">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 15:01:46 UTC Tue Jul 5 2016
+! Last configuration change at 05:25:07 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -281,7 +281,7 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.174 255.255.255.0
+ ip address 172.16.1.69 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -421,7 +421,7 @@ end</entry>
     <node name="PAFB-C00-PR-01" type="SIMPLE" subtype="IOSv" location="423,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 22:24:52 UTC Tue Jul 5 2016
+! Last configuration change at 07:59:20 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -486,7 +486,7 @@ interface Loopback0
  ip address 29.2.221.254 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.170 255.255.255.0
+ ip address 172.16.1.73 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -608,7 +608,7 @@ end</entry>
     <node name="CMAF-C00-PR-01" type="SIMPLE" subtype="IOSv" location="173,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 22:58:03 UTC Tue Jul 5 2016
+! Last configuration change at 07:58:43 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -673,7 +673,7 @@ interface Loopback0
  ip address 29.2.191.254 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.192 255.255.255.0
+ ip address 172.16.1.57 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -797,7 +797,7 @@ end</entry>
     <node name="EADS-C00-PR-01" type="SIMPLE" subtype="IOSv" location="637,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 22:24:47 UTC Tue Jul 5 2016
+! Last configuration change at 08:11:08 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -862,7 +862,7 @@ interface Loopback0
  ip address 29.2.106.254 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.186 255.255.255.0
+ ip address 172.16.1.68 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -990,7 +990,7 @@ end</entry>
     <node name="WADS-C00-PR-01" type="SIMPLE" subtype="IOSv" location="856,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 22:30:11 UTC Tue Jul 5 2016
+! Last configuration change at 08:02:03 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1055,7 +1055,7 @@ interface Loopback0
  ip address 29.2.80.254 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.175 255.255.255.0
+ ip address 172.16.1.77 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -1174,7 +1174,7 @@ end</entry>
     <node name="CONR-C00-PR-01" type="SIMPLE" subtype="IOSv" location="1041,212">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 14:50:37 UTC Tue Jul 5 2016
+! Last configuration change at 05:34:21 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1239,7 +1239,7 @@ interface Loopback0
  ip address 29.2.132.251 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.171 255.255.255.0
+ ip address 172.16.1.62 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -1266,21 +1266,15 @@ interface GigabitEthernet0/3
  speed auto
  media-type rj45
 !
-router ospf 201
- router-id 29.2.132.251
- passive-interface default
- no passive-interface GigabitEthernet0/2
- no passive-interface GigabitEthernet0/3
- network 29.2.132.0 0.0.0.7 area 0
- network 29.2.132.28 0.0.0.3 area 0
- network 29.2.132.251 0.0.0.0 area 0
- default-information originate metric 100
-!
 router bgp 65001
  bgp log-neighbor-changes
  neighbor 29.2.132.241 remote-as 65001
  neighbor 29.2.132.241 description &lt;== iBGP Connection to CR-01 ==&gt;
+ neighbor 29.2.132.241 update-source Loopback0
+ neighbor 29.2.132.241 timers 10 30
+ neighbor 29.2.132.241 next-hop-self
  neighbor 29.2.132.241 send-community
+ neighbor 29.2.132.241 soft-reconfiguration inbound
  neighbor 29.2.132.242 remote-as 65001
  neighbor 29.2.132.242 description &lt;== iBGP Connection to CR-02 ==&gt;
  neighbor 29.2.132.242 send-community
@@ -1289,30 +1283,32 @@ router bgp 65001
  neighbor 29.2.132.252 update-source Loopback0
  neighbor 151.2.220.1 remote-as 27062
  neighbor 151.2.220.1 description &lt;== Connection to DISA ==&gt;
- neighbor 151.2.220.1 prefix-list CONR-OUT out
- neighbor 151.2.220.1 route-map CONR-DEFAULT in
- neighbor 151.2.220.1 route-map 7JXR_Primary out
+ neighbor 151.2.220.1 route-map SITE-DEFAULT-IN in
+ neighbor 151.2.220.1 route-map SITE-BGP-OUT out
 !
 ip forward-protocol nd
 !
 ip bgp-community new-format
+ip community-list standard CONR_CIDR permit 100:100
 !
 no ip http server
 no ip http secure-server
-ip route 0.0.0.0 0.0.0.0 151.2.220.1
+ip route 29.2.132.241 255.255.255.255 29.2.132.4 name CONR-CR-01-L0
 !
 !
 ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
 !
 ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
 !
-route-map 7JXR_Primary permit 10
- match ip address prefix-list CONR-OUT
- set as-path prepend 65001
+route-map SITE-BGP-OUT permit 10
+ match community CONR_CIDR
 !
-route-map CONR-DEFAULT permit 10
+route-map SITE-BGP-OUT deny 20
+ description denies all prefixes except network aggregates
+!
+route-map SITE-DEFAULT-IN permit 10
  match ip address prefix-list DEFAULT-ONLY
- set community 100:0
+ set community 0:100
 !
 !
 !
@@ -1348,6 +1344,7 @@ banner login `
 !
 line con 0
  exec-timeout 0 0
+ logging synchronous
 line aux 0
 line vty 0 4
  login
@@ -1364,7 +1361,7 @@ end</entry>
     <node name="CONR-C00-PR-02" type="SIMPLE" subtype="IOSv" location="1188,212">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 15:48:29 UTC Tue Jul 5 2016
+! Last configuration change at 05:41:23 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1429,7 +1426,7 @@ interface Loopback0
  ip address 29.2.132.252 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.172 255.255.255.0
+ ip address 172.16.1.63 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -1530,7 +1527,7 @@ end</entry>
     <node name="CONR-C00-CR-01" type="SIMPLE" subtype="IOSv" location="1041,449">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 14:37:11 UTC Tue Jul 5 2016
+! Last configuration change at 04:55:53 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1620,7 +1617,7 @@ interface Tunnel151
  tunnel destination 29.2.4.29
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.184 255.255.255.0
+ ip address 172.16.1.58 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -1649,6 +1646,7 @@ interface GigabitEthernet0/3
  media-type rj45
 !
 router ospf 201
+ redistribute bgp 65001 metric 100 subnets route-map SITES-BGP-IN
  passive-interface default
  no passive-interface GigabitEthernet0/1
  no passive-interface GigabitEthernet0/2
@@ -1658,8 +1656,9 @@ router ospf 201
 !
 router bgp 65001
  bgp log-neighbor-changes
- network 29.2.132.0 mask 255.255.255.0 route-map CONR-COMMUNITY
- aggregate-address 29.2.132.0 255.255.255.0 summary-only
+ network 29.2.132.0 mask 255.255.252.0 route-map CONR-COMMUNITY
+ network 29.2.136.0 mask 255.255.248.0 route-map CONR-COMMUNITY
+ network 29.2.144.0 mask 255.255.252.0 route-map CONR-COMMUNITY
  neighbor SITES-BGP peer-group
  neighbor SITES-BGP description Inbound/Outbound Routing Policies
  neighbor SITES-BGP password cisco
@@ -1686,58 +1685,59 @@ router bgp 65001
  neighbor 29.2.132.251 remote-as 65001
  neighbor 29.2.132.251 description &lt;== iBGP Connection to PR-01 ==&gt;
  neighbor 29.2.132.251 update-source Loopback0
+ neighbor 29.2.132.251 timers 10 30
+ neighbor 29.2.132.251 send-community
+ neighbor 29.2.132.251 soft-reconfiguration inbound
+ neighbor 29.2.132.251 route-map PREM-BGP-IN in
+ neighbor 29.2.132.251 route-map PREM-BGP-OUT out
 !
 ip forward-protocol nd
 !
 ip bgp-community new-format
 ip community-list standard CONR_CIDR permit 100:100
-ip community-list standard WADS_CIDR permit 200:200
-ip community-list standard EADS_CIDR permit 300:300
-ip community-list standard CMAFS_CIDR permit 400:400
-ip community-list standard PAFB_CIDR permit 500:500
-ip community-list standard EADS_DEFAULT permit 300:0
-ip community-list standard CMAFS_DEFAULT permit 400:0
-ip community-list standard PAFB_DEFAULT permit 500:0
+ip community-list standard PAFB_DEFAULT permit 0:500
+ip community-list standard CMAF_DEFAULT permit 0:400
+ip community-list standard CONR_DEFAULT permit 0:100
+ip community-list expanded SITE_CIDRS permit 100:.*
 !
 no ip http server
 no ip http secure-server
 ip route 29.2.4.29 255.255.255.255 29.2.132.10 name PAFBCR01:TUNNEL
 ip route 29.2.80.9 255.255.255.255 29.2.132.10 name WADSCR01:TUNNEL
 ip route 29.2.106.9 255.255.255.255 29.2.132.10 name EADSCR01:TUNNEL
-ip route 29.2.132.0 255.255.255.0 Null0 name CONR-CIDR1
+ip route 29.2.132.0 255.255.252.0 Null0 name CONR-CIDR1
+ip route 29.2.132.251 255.255.255.255 29.2.132.20 name CONR-PR-01-L0
+ip route 29.2.136.0 255.255.248.0 Null0 name CONR-CIDR2
+ip route 29.2.144.0 255.255.252.0 Null0 name CONR-CIDR3
 ip route 29.2.191.9 255.255.255.255 29.2.132.10 name CMAFSCR01:TUNNEL
 !
 !
-ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
+route-map SITES-BGP-IN permit 10
+ description All remote sites CIDR Block Advertisements
+ match community SITE_CIDRS
+ set local-preference 500
 !
-route-map SITES-BGP-IN permit 100
- description Continental NORAD Region CIDR Block Advertisement
+route-map SITES-BGP-IN permit 20
+ description CMAF Default Route
+ match community CMAF_DEFAULT
+ set local-preference 300
+!
+route-map SITES-BGP-IN permit 30
+ description Peterson Default route
+ match community PAFB_DEFAULT
+ set local-preference 400
+!
+route-map PREM-BGP-OUT permit 10
+ description Allow local network aggregate to PR
  match community CONR_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 200
- description Western Air Defense Sector CIDR Block Advertisement
- match community WADS_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 300
- description Eastern Air Defense Sector CIDR Block Advertisement
- match community EADS_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 400
- description Cheyenne Mountain CIDR Block Advertisement
- match community CMAFS_CIDR
- set local-preference 500
-!
-route-map SITES-BGP-IN permit 500
- description Peterson CIDR Block Advertisement
- match community PAFB_CIDR
- set local-preference 500
 !
 route-map SITES-BGP-OUT permit 10
  description Continental NORAD Region CIDR Block Advertisement
  match community CONR_CIDR
+!
+route-map PREM-BGP-IN permit 10
+ match community CONR_DEFAULT
+ set local-preference 500
 !
 route-map CONR-COMMUNITY permit 10
  set local-preference 500
@@ -1793,7 +1793,7 @@ end</entry>
     <node name="EADS-C00-CR-02" type="SIMPLE" subtype="IOSv" location="715,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 16:19:32 UTC Tue Jul 5 2016
+! Last configuration change at 05:46:46 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1859,7 +1859,7 @@ interface Loopback0
  ip address 29.2.106.242 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.188 255.255.255.0
+ ip address 172.16.1.66 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -1970,7 +1970,7 @@ end</entry>
     <node name="EADS-C00-CR-01" type="SIMPLE" subtype="IOSv" location="598,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 13:59:35 UTC Tue Jul 5 2016
+! Last configuration change at 05:01:25 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2080,7 +2080,7 @@ interface Tunnel351
  tunnel path-mtu-discovery age-timer 30
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.187 255.255.255.0
+ ip address 172.16.1.65 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -2256,7 +2256,7 @@ end</entry>
     <node name="WADS-C00-CR-01" type="SIMPLE" subtype="IOSv" location="824,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 14:32:21 UTC Tue Jul 5 2016
+! Last configuration change at 04:51:38 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2346,7 +2346,7 @@ interface Tunnel251
  tunnel destination 29.2.4.29
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.178 255.255.255.0
+ ip address 172.16.1.74 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -2517,7 +2517,7 @@ end</entry>
     <node name="WADS-C00-CR-02" type="SIMPLE" subtype="IOSv" location="934,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 16:18:53 UTC Tue Jul 5 2016
+! Last configuration change at 05:58:30 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2583,7 +2583,7 @@ interface Loopback0
  ip address 29.2.80.242 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.177 255.255.255.0
+ ip address 172.16.1.75 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -2694,7 +2694,7 @@ end</entry>
     <node name="CMAF-C00-CR-02" type="SIMPLE" subtype="IOSv" location="243,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 16:55:48 UTC Tue Jul 5 2016
+! Last configuration change at 05:26:25 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2760,7 +2760,7 @@ interface Loopback0
  ip address 29.2.191.242 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.191 255.255.255.0
+ ip address 172.16.1.55 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -2869,7 +2869,7 @@ end</entry>
     <node name="CMAF-C00-CR-01" type="SIMPLE" subtype="IOSv" location="99,493">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 13:39:10 UTC Tue Jul 5 2016
+! Last configuration change at 04:42:06 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2953,7 +2953,7 @@ interface Tunnel431
  tunnel destination 29.2.106.9
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.189 255.255.255.0
+ ip address 172.16.1.54 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -2988,7 +2988,7 @@ interface GigabitEthernet0/4
  media-type rj45
 !
 router ospf 201
- redistribute bgp 27071 subnets
+ redistribute bgp 27071 metric 100 subnets route-map SITES-BGP-IN
  passive-interface default
  no passive-interface GigabitEthernet0/1
  no passive-interface GigabitEthernet0/2
@@ -2999,7 +2999,6 @@ router bgp 27071
  bgp log-neighbor-changes
  bgp default local-preference 400
  network 29.2.191.0 mask 255.255.255.0 route-map CMAF-COMMUNITY
- aggregate-address 29.2.191.0 255.255.255.0 summary-only
  neighbor SITES-BGP peer-group
  neighbor SITES-BGP description Inbound/Outbound Routing Policies
  neighbor SITES-BGP password cisco
@@ -3136,7 +3135,7 @@ end</entry>
     <node name="CONR-C00-CR-02" type="SIMPLE" subtype="IOSv" location="1188,449">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 16:22:22 UTC Tue Jul 5 2016
+! Last configuration change at 05:36:28 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3202,7 +3201,7 @@ interface Loopback0
  ip address 29.2.132.242 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.182 255.255.255.0
+ ip address 172.16.1.59 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -3322,7 +3321,7 @@ end</entry>
     <node name="PAFB-C00-CR-01" type="SIMPLE" subtype="IOSv" location="380,511">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 14:21:58 UTC Tue Jul 5 2016
+! Last configuration change at 04:36:42 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3406,7 +3405,7 @@ interface Tunnel531
  tunnel destination 29.2.106.9
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.180 255.255.255.0
+ ip address 172.16.1.70 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -3440,7 +3439,7 @@ interface GigabitEthernet0/4
  media-type rj45
 !
 router ospf 201
- redistribute bgp 27058 subnets
+ redistribute bgp 27058 metric 100 subnets route-map SITES-BGP-IN
  passive-interface default
  no passive-interface GigabitEthernet0/1
  no passive-interface GigabitEthernet0/2
@@ -3567,6 +3566,7 @@ banner login `
 !
 line con 0
  exec-timeout 0 0
+ logging synchronous
 line aux 0
 line vty 0 4
  login
@@ -3584,7 +3584,7 @@ end</entry>
     <node name="PAFB-C00-CR-02" type="SIMPLE" subtype="IOSv" location="489,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 15:43:55 UTC Tue Jul 5 2016
+! Last configuration change at 05:34:17 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3650,7 +3650,7 @@ interface Loopback0
  ip address 29.2.221.242 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.179 255.255.255.0
+ ip address 172.16.1.71 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -3790,7 +3790,7 @@ interface Management0/0
  shutdown
  no nameif
  no security-level
- ip address 172.16.1.183 255.255.255.0 
+ ip address 172.16.1.56 255.255.255.0 
 !
 ftp mode passive
 object-group network EADS_OUTER_BGP_NEIGHBORS
@@ -3988,7 +3988,7 @@ interface Management0/0
  shutdown
  no nameif
  no security-level
- ip address 172.16.1.181 255.255.255.0 
+ ip address 172.16.1.72 255.255.255.0 
 !
 ftp mode passive
 pager lines 23
@@ -4167,7 +4167,7 @@ interface Management0/0
  shutdown
  no nameif
  no security-level
- ip address 172.16.1.190 255.255.255.0 
+ ip address 172.16.1.67 255.255.255.0 
 !
 ftp mode passive
 object-group network EADS_OUTER_BGP_NEIGHBORS
@@ -4362,7 +4362,7 @@ interface Management0/0
  shutdown
  no nameif
  no security-level
- ip address 172.16.1.185 255.255.255.0 
+ ip address 172.16.1.76 255.255.255.0 
 !
 ftp mode passive
 pager lines 23
@@ -4551,7 +4551,7 @@ interface Management0/0
  shutdown
  no nameif
  no security-level
- ip address 172.16.1.168 255.255.255.0 
+ ip address 172.16.1.60 255.255.255.0 
 !
 ftp mode passive
 pager lines 23
@@ -4572,6 +4572,8 @@ router ospf 201
  network 29.2.132.16 255.255.255.248 area 0
  log-adj-changes
 !
+route outside 0.0.0.0 0.0.0.0 29.2.132.1 1
+route outside 29.2.132.251 255.255.255.255 29.2.132.1 1
 timeout xlate 3:00:00
 timeout pat-xlate 0:00:30
 timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
@@ -4743,7 +4745,7 @@ interface Management0/0
  shutdown
  no nameif
  no security-level
- ip address 172.16.1.168 255.255.255.0 
+ ip address 172.16.1.60 255.255.255.0 
 !
 ftp mode passive
 pager lines 23
@@ -4764,6 +4766,8 @@ router ospf 201
  network 29.2.132.16 255.255.255.248 area 0
  log-adj-changes
 !
+route outside 0.0.0.0 0.0.0.0 29.2.132.1 1
+route outside 29.2.132.251 255.255.255.255 29.2.132.1 1
 timeout xlate 3:00:00
 timeout pat-xlate 0:00:30
 timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
@@ -4938,7 +4942,7 @@ call-home
     <node name="google" type="SIMPLE" subtype="IOSv" location="689,21">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 01:10:17 UTC Wed Jul 6 2016
+! Last configuration change at 08:49:36 UTC Fri Jul 8 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -5002,7 +5006,7 @@ interface Loopback1
  ip address 8.8.8.8 255.255.255.255
 !
 interface GigabitEthernet0/0
- ip address 172.16.1.173 255.255.255.0
+ ip address 172.16.1.78 255.255.255.0
  shutdown
  duplex auto
  speed auto
@@ -5072,6 +5076,7 @@ end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1"/>
     </node>
+    <annotations/>
     <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
     <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
     <connection dst="/virl:topology/virl:node[5]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
