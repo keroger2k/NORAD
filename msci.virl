@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
+    <extensions>
+        <entry key="management_network" type="String">flat</entry>
+    </extensions>
+    <node name="PAFB-MSCI-DNS-01" type="SIMPLE" subtype="server" location="616,411">
+        <extensions>
+            <entry key="config" type="String">#cloud-config&#xD;
+bootcmd:&#xD;
+- ln -s -t /etc/rc.d /etc/rc.local&#xD;
+hostname: PAFB-MSCI-DNS-01&#xD;
+manage_etc_hosts: true&#xD;
+runcmd:&#xD;
+- start ttyS0&#xD;
+- systemctl start getty@ttyS0.service&#xD;
+- systemctl start rc-local&#xD;
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config&#xD;
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config&#xD;
+- service ssh restart&#xD;
+- service sshd restart&#xD;
+users:&#xD;
+- default&#xD;
+- gecos: User configured by VIRL Configuration Engine 0.21.6&#xD;
+  lock-passwd: false&#xD;
+  name: cisco&#xD;
+  plain-text-passwd: cisco&#xD;
+  shell: /bin/bash&#xD;
+  ssh-authorized-keys:&#xD;
+  - VIRL-USER-SSH-PUBLIC-KEY&#xD;
+  sudo: ALL=(ALL) ALL&#xD;
+write_files:&#xD;
+- path: /etc/init/ttyS0.conf&#xD;
+  owner: root:root&#xD;
+  content: |&#xD;
+    # ttyS0 - getty&#xD;
+    # This service maintains a getty on ttyS0 from the point the system is&#xD;
+    # started until it is shut down again.&#xD;
+    start on stopped rc or RUNLEVEL=[12345]&#xD;
+    stop on runlevel [!12345]&#xD;
+    respawn&#xD;
+    exec /sbin/getty -L 115200 ttyS0 vt102&#xD;
+  permissions: '0644'&#xD;
+- path: /etc/systemd/system/dhclient@.service&#xD;
+  content: |&#xD;
+    [Unit]&#xD;
+    Description=Run dhclient on %i interface&#xD;
+    After=network.target&#xD;
+    [Service]&#xD;
+    Type=oneshot&#xD;
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease&#xD;
+    RemainAfterExit=yes&#xD;
+  owner: root:root&#xD;
+  permissions: '0644'&#xD;
+- path: /etc/rc.local&#xD;
+  owner: root:root&#xD;
+  permissions: '0755'&#xD;
+  content: |-&#xD;
+    #!/bin/sh&#xD;
+    ifconfig eth1 up 10.7.2.10 netmask 255.255.0.0&#xD;
+    route add -net 10.0.0.0/16 gw 10.0.0.2 dev eth1&#xD;
+    route add -net 192.168.0.0/30 gw 10.0.0.2 dev eth1&#xD;
+    route add -net 10.0.0.0/16 gw 10.0.0.3 dev eth1&#xD;
+    route add -net 192.168.0.0/30 gw 10.0.0.3 dev eth1&#xD;
+    exit 0</entry>
+        </extensions>
+        <interface id="0" name="eth1"/>
+    </node>
+    <node name="CSNI-OR-01" type="SIMPLE" subtype="IOSv" location="635,45">
+        <interface id="0" name="GigabitEthernet0/1"/>
+    </node>
+    <node name="NEN-OR-01" type="SIMPLE" subtype="IOSv" location="318,141">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="PAFB-MSCI-OR-01" type="SIMPLE" subtype="IOSv" location="493,141">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="PAFB-MSCI-FW-01" type="SIMPLE" subtype="ASAv" location="330,324">
+        <interface id="0" name="GigabitEthernet0/0"/>
+        <interface id="1" name="GigabitEthernet0/1"/>
+        <interface id="2" name="GigabitEthernet0/2"/>
+        <interface id="3" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="PAFB-MSCI-OS-01" type="SIMPLE" subtype="IOSvL2" location="493,255">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="PAFB-MSCI-IS-01" type="SIMPLE" subtype="IOSvL2" location="493,412">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet1/0"/>
+    </node>
+    <node name="PAFB-C00-CR-01" type="SIMPLE" subtype="IOSv" location="284,569">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="PAFB-C00-CR-02" type="SIMPLE" subtype="IOSv" location="664,564">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="PAFB-MSCI-IR-01" type="SIMPLE" subtype="IOSv" location="493,474">
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="NEN-SERVER-01" type="SIMPLE" subtype="server" location="147,85">
+        <extensions>
+            <entry key="config" type="String">#cloud-config&#xD;
+bootcmd:&#xD;
+- ln -s -t /etc/rc.d /etc/rc.local&#xD;
+hostname: NEN-SERVER-01&#xD;
+manage_etc_hosts: true&#xD;
+runcmd:&#xD;
+- start ttyS0&#xD;
+- systemctl start getty@ttyS0.service&#xD;
+- systemctl start rc-local&#xD;
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config&#xD;
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config&#xD;
+- service ssh restart&#xD;
+- service sshd restart&#xD;
+users:&#xD;
+- default&#xD;
+- gecos: User configured by VIRL Configuration Engine 0.21.6&#xD;
+  lock-passwd: false&#xD;
+  name: cisco&#xD;
+  plain-text-passwd: cisco&#xD;
+  shell: /bin/bash&#xD;
+  ssh-authorized-keys:&#xD;
+  - VIRL-USER-SSH-PUBLIC-KEY&#xD;
+  sudo: ALL=(ALL) ALL&#xD;
+write_files:&#xD;
+- path: /etc/init/ttyS0.conf&#xD;
+  owner: root:root&#xD;
+  content: |&#xD;
+    # ttyS0 - getty&#xD;
+    # This service maintains a getty on ttyS0 from the point the system is&#xD;
+    # started until it is shut down again.&#xD;
+    start on stopped rc or RUNLEVEL=[12345]&#xD;
+    stop on runlevel [!12345]&#xD;
+    respawn&#xD;
+    exec /sbin/getty -L 115200 ttyS0 vt102&#xD;
+  permissions: '0644'&#xD;
+- path: /etc/systemd/system/dhclient@.service&#xD;
+  content: |&#xD;
+    [Unit]&#xD;
+    Description=Run dhclient on %i interface&#xD;
+    After=network.target&#xD;
+    [Service]&#xD;
+    Type=oneshot&#xD;
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease&#xD;
+    RemainAfterExit=yes&#xD;
+  owner: root:root&#xD;
+  permissions: '0644'&#xD;
+- path: /etc/rc.local&#xD;
+  owner: root:root&#xD;
+  permissions: '0755'&#xD;
+  content: |-&#xD;
+    #!/bin/sh&#xD;
+    ifconfig eth1 up 10.7.2.10 netmask 255.255.0.0&#xD;
+    route add -net 10.0.0.0/16 gw 10.0.0.2 dev eth1&#xD;
+    route add -net 192.168.0.0/30 gw 10.0.0.2 dev eth1&#xD;
+    route add -net 10.0.0.0/16 gw 10.0.0.3 dev eth1&#xD;
+    route add -net 192.168.0.0/30 gw 10.0.0.3 dev eth1&#xD;
+    exit 0</entry>
+        </extensions>
+        <interface id="0" name="eth1"/>
+    </node>
+    <annotations/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[4]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[4]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[1]" src="/virl:topology/virl:node[4]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[1]" src="/virl:topology/virl:node[6]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[2]" src="/virl:topology/virl:node[6]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[8]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[7]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[3]" src="/virl:topology/virl:node[7]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[4]" src="/virl:topology/virl:node[7]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[1]" src="/virl:topology/virl:node[7]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[1]" src="/virl:topology/virl:node[3]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[2]" src="/virl:topology/virl:node[8]/virl:interface[2]"/>
+</topology>
