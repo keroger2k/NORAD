@@ -6,7 +6,7 @@
     <node name="DISA" type="SIMPLE" subtype="IOSv" location="695,145">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 06:35:55 UTC Fri Jul 8 2016
+! Last configuration change at 19:36:32 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -219,7 +219,7 @@ end</entry>
     <node name="L3VPN" type="SIMPLE" subtype="IOSv" location="692,641">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:25:07 UTC Fri Jul 8 2016
+! Last configuration change at 16:33:48 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -421,7 +421,7 @@ end</entry>
     <node name="PAFB-C00-PR-01" type="SIMPLE" subtype="IOSv" location="423,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 07:59:20 UTC Fri Jul 8 2016
+! Last configuration change at 23:10:01 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -608,7 +608,7 @@ end</entry>
     <node name="CMAF-C00-PR-01" type="SIMPLE" subtype="IOSv" location="173,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 07:58:43 UTC Fri Jul 8 2016
+! Last configuration change at 23:16:17 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -797,7 +797,7 @@ end</entry>
     <node name="EADS-C00-PR-01" type="SIMPLE" subtype="IOSv" location="637,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 08:11:08 UTC Fri Jul 8 2016
+! Last configuration change at 23:41:37 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -990,7 +990,7 @@ end</entry>
     <node name="WADS-C00-PR-01" type="SIMPLE" subtype="IOSv" location="856,244">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 08:02:03 UTC Fri Jul 8 2016
+! Last configuration change at 23:17:45 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1174,7 +1174,7 @@ end</entry>
     <node name="CONR-C00-PR-01" type="SIMPLE" subtype="IOSv" location="1041,212">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:34:21 UTC Fri Jul 8 2016
+! Last configuration change at 16:54:40 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1277,7 +1277,11 @@ router bgp 65001
  neighbor 29.2.132.241 soft-reconfiguration inbound
  neighbor 29.2.132.242 remote-as 65001
  neighbor 29.2.132.242 description &lt;== iBGP Connection to CR-02 ==&gt;
+ neighbor 29.2.132.242 update-source Loopback0
+ neighbor 29.2.132.242 timers 10 30
+ neighbor 29.2.132.242 next-hop-self
  neighbor 29.2.132.242 send-community
+ neighbor 29.2.132.242 soft-reconfiguration inbound
  neighbor 29.2.132.252 remote-as 65001
  neighbor 29.2.132.252 description &lt;== iBGP Connection to PR-02 ==&gt;
  neighbor 29.2.132.252 update-source Loopback0
@@ -1294,6 +1298,7 @@ ip community-list standard CONR_CIDR permit 100:100
 no ip http server
 no ip http secure-server
 ip route 29.2.132.241 255.255.255.255 29.2.132.4 name CONR-CR-01-L0
+ip route 29.2.132.242 255.255.255.255 29.2.132.4 name CONR-CR-02-L0
 !
 !
 ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
@@ -1361,7 +1366,7 @@ end</entry>
     <node name="CONR-C00-PR-02" type="SIMPLE" subtype="IOSv" location="1188,212">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:41:23 UTC Fri Jul 8 2016
+! Last configuration change at 17:15:53 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1527,7 +1532,7 @@ end</entry>
     <node name="CONR-C00-CR-01" type="SIMPLE" subtype="IOSv" location="1041,449">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 04:55:53 UTC Fri Jul 8 2016
+! Last configuration change at 15:18:01 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1634,12 +1639,14 @@ interface GigabitEthernet0/1
  media-type rj45
 !
 interface GigabitEthernet0/2
+ description &lt;== iBGP Connection to CONR-C00-CR-02 ==&gt;
  ip address 29.2.132.65 255.255.255.252
  duplex auto
  speed auto
  media-type rj45
 !
 interface GigabitEthernet0/3
+ description &lt;== Connection to L3VPN ==&gt;
  ip address 29.2.132.9 255.255.255.252
  duplex auto
  speed auto
@@ -1682,6 +1689,10 @@ router bgp 65001
  neighbor 29.2.132.242 remote-as 65001
  neighbor 29.2.132.242 description &lt;== iBGP Connection to CR-02 ==&gt;
  neighbor 29.2.132.242 update-source Loopback0
+ neighbor 29.2.132.242 timers 10 30
+ neighbor 29.2.132.242 next-hop-self
+ neighbor 29.2.132.242 send-community
+ neighbor 29.2.132.242 soft-reconfiguration inbound
  neighbor 29.2.132.251 remote-as 65001
  neighbor 29.2.132.251 description &lt;== iBGP Connection to PR-01 ==&gt;
  neighbor 29.2.132.251 update-source Loopback0
@@ -1793,7 +1804,7 @@ end</entry>
     <node name="EADS-C00-CR-02" type="SIMPLE" subtype="IOSv" location="715,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:46:46 UTC Fri Jul 8 2016
+! Last configuration change at 17:22:18 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1970,7 +1981,7 @@ end</entry>
     <node name="EADS-C00-CR-01" type="SIMPLE" subtype="IOSv" location="598,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:01:25 UTC Fri Jul 8 2016
+! Last configuration change at 15:30:36 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2256,7 +2267,7 @@ end</entry>
     <node name="WADS-C00-CR-01" type="SIMPLE" subtype="IOSv" location="824,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 04:51:38 UTC Fri Jul 8 2016
+! Last configuration change at 15:07:25 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2517,7 +2528,7 @@ end</entry>
     <node name="WADS-C00-CR-02" type="SIMPLE" subtype="IOSv" location="934,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:58:30 UTC Fri Jul 8 2016
+! Last configuration change at 17:54:31 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2694,7 +2705,7 @@ end</entry>
     <node name="CMAF-C00-CR-02" type="SIMPLE" subtype="IOSv" location="243,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:26:25 UTC Fri Jul 8 2016
+! Last configuration change at 16:54:17 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2869,7 +2880,7 @@ end</entry>
     <node name="CMAF-C00-CR-01" type="SIMPLE" subtype="IOSv" location="99,493">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 04:42:06 UTC Fri Jul 8 2016
+! Last configuration change at 15:05:27 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3135,7 +3146,7 @@ end</entry>
     <node name="CONR-C00-CR-02" type="SIMPLE" subtype="IOSv" location="1188,449">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:36:28 UTC Fri Jul 8 2016
+! Last configuration change at 16:44:20 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3216,56 +3227,67 @@ interface GigabitEthernet0/1
  media-type rj45
 !
 interface GigabitEthernet0/2
+ description &lt;== iBGP Connection to CONR-C00-CR-01 ==&gt;
  ip address 29.2.132.66 255.255.255.252
  duplex auto
  speed auto
  media-type rj45
 !
 interface GigabitEthernet0/3
+ description &lt;== Connection to L3VPN ==&gt;
  ip address 29.2.132.13 255.255.255.252
  duplex auto
  speed auto
  media-type rj45
 !
 router ospf 201
+ redistribute bgp 65001 subnets
  passive-interface default
  no passive-interface GigabitEthernet0/1
- no passive-interface GigabitEthernet0/2
- network 29.2.4.128 0.0.0.127 area 0
  network 29.2.132.16 0.0.0.7 area 0
  network 29.2.132.64 0.0.0.3 area 0
  network 29.2.132.242 0.0.0.0 area 0
 !
 router bgp 65001
  bgp log-neighbor-changes
- network 29.2.132.0 mask 255.255.255.0 route-map CONR-COMMUNITY
- aggregate-address 29.2.132.0 255.255.255.0 summary-only
+ network 29.2.132.0 mask 255.255.252.0 route-map CONR-COMMUNITY
+ network 29.2.136.0 mask 255.255.248.0 route-map CONR-COMMUNITY
+ network 29.2.144.0 mask 255.255.252.0 route-map CONR-COMMUNITY
  neighbor 29.2.132.241 remote-as 65001
  neighbor 29.2.132.241 description &lt;== iBGP Connection to CR-01 ==&gt;
  neighbor 29.2.132.241 update-source Loopback0
+ neighbor 29.2.132.241 timers 10 30
+ neighbor 29.2.132.241 send-community
+ neighbor 29.2.132.241 soft-reconfiguration inbound
  neighbor 29.2.132.251 remote-as 65001
  neighbor 29.2.132.251 description &lt;== iBGP Connection to PR-01 ==&gt;
  neighbor 29.2.132.251 update-source Loopback0
+ neighbor 29.2.132.251 timers 10 30
+ neighbor 29.2.132.251 send-community
+ neighbor 29.2.132.251 soft-reconfiguration inbound
+ neighbor 29.2.132.251 route-map PREM-BGP-IN in
+ neighbor 29.2.132.251 route-map PREM-BGP-OUT out
 !
 ip forward-protocol nd
 !
 ip bgp-community new-format
 ip community-list standard CONR_CIDR permit 100:100
-ip community-list standard WADS_CIDR permit 200:200
-ip community-list standard EADS_CIDR permit 300:300
-ip community-list standard CMAFS_CIDR permit 400:400
-ip community-list standard PAFB_CIDR permit 500:500
 !
 no ip http server
 no ip http secure-server
-ip route 29.2.4.29 255.255.255.255 29.2.132.14 2 name PAFBCR01:151/512
-ip route 29.2.80.9 255.255.255.255 29.2.132.14 name WADSCR01:Tunnel121/212
-ip route 29.2.106.9 255.255.255.255 29.2.132.14 name EADSCR01:131/312
-ip route 29.2.132.0 255.255.255.0 Null0 name CONR-CIDR1
-ip route 29.2.191.9 255.255.255.255 29.2.132.14 name CMAFSCR01:141/412
+ip route 29.2.132.0 255.255.252.0 Null0 name CONR-CIDR1
+ip route 29.2.132.251 255.255.255.255 29.2.132.20 name CONR-PR-01-L0
+ip route 29.2.136.0 255.255.248.0 Null0 name CONR-CIDR2
+ip route 29.2.144.0 255.255.252.0 Null0 name CONR-CIDR3
 !
 !
-ip prefix-list CONR-OUT seq 5 permit 29.2.132.0/24
+route-map PREM-BGP-OUT permit 10
+ description Allow local network aggregate to PR
+ match community CONR_CIDR
+!
+route-map PREM-BGP-IN permit 10
+ match community CONR_DEFAULT
+ set local-preference 400
 !
 route-map CONR-COMMUNITY permit 10
  set local-preference 400
@@ -3321,7 +3343,7 @@ end</entry>
     <node name="PAFB-C00-CR-01" type="SIMPLE" subtype="IOSv" location="380,511">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 04:36:42 UTC Fri Jul 8 2016
+! Last configuration change at 14:31:04 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3584,7 +3606,7 @@ end</entry>
     <node name="PAFB-C00-CR-02" type="SIMPLE" subtype="IOSv" location="489,431">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 05:34:17 UTC Fri Jul 8 2016
+! Last configuration change at 16:51:31 UTC Sun Jul 10 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -4942,7 +4964,7 @@ call-home
     <node name="google" type="SIMPLE" subtype="IOSv" location="689,21">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 08:49:36 UTC Fri Jul 8 2016
+! Last configuration change at 01:14:41 UTC Mon Jul 11 2016
 !
 version 15.6
 service timestamps debug datetime msec
