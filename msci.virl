@@ -65,7 +65,7 @@ write_files:
     <node name="CSNI-OR-01" type="SIMPLE" subtype="IOSv" location="576,39">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:57:39 UTC Tue Jul 12 2016
+! Last configuration change at 12:48:43 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -227,7 +227,7 @@ end</entry>
     <node name="NEN-PAFB-OR-01" type="SIMPLE" subtype="IOSv" location="216,173">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 10:00:20 UTC Tue Jul 12 2016
+! Last configuration change at 12:52:27 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -376,7 +376,7 @@ end</entry>
     <node name="PAFB-MSCI-OR-01" type="SIMPLE" subtype="IOSv" location="380,173">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:27:56 UTC Tue Jul 12 2016
+! Last configuration change at 12:08:24 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -503,7 +503,7 @@ interface GigabitEthernet0/3
  media-type rj45
 !
 interface GigabitEthernet0/3.20
- description &lt;== Outer Router to Firewall - SIPR Side ==&gt;
+ description &lt;== Outer Router to Firewall - CSNI Side ==&gt;
  encapsulation dot1Q 20
  ip vrf forwarding CSNI
  ip address 29.2.117.9 255.255.255.252
@@ -607,6 +607,7 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip nat inside source static 29.2.117.58 100.100.255.193 vrf CSNI
+ip nat inside source static 29.3.117.58 100.100.255.194 vrf CSNI
 ip route vrf CSNI 100.100.255.192 255.255.255.192 Null0 name US_NAT_POOL_01
 !
 !
@@ -627,6 +628,7 @@ route-map ADVERTISE-NATPOOL-PRIMARY permit 10
  set as-path prepend 27058
 !
 route-map EGRESS-PRIMARY-PATH permit 10
+ set local-preference 1000
  set as-path prepend 65535
 !
 route-map CORE-REACHABLE permit 10
@@ -879,7 +881,7 @@ call-home
     <node name="PAFB-MSCI-OS-01" type="SIMPLE" subtype="IOSvL2" location="380,243">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:07:14 UTC Tue Jul 12 2016
+! Last configuration change at 11:38:57 UTC Tue Jul 12 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -1021,7 +1023,7 @@ end</entry>
     <node name="PAFB-MSCI-IS-01" type="SIMPLE" subtype="IOSvL2" location="380,430">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 08:59:47 UTC Tue Jul 12 2016
+! Last configuration change at 11:28:46 UTC Tue Jul 12 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -1175,7 +1177,7 @@ end</entry>
     <node name="PAFB-C00-CR-01" type="SIMPLE" subtype="IOSv" location="380,666">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:56:05 UTC Tue Jul 12 2016
+! Last configuration change at 12:46:04 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1267,6 +1269,7 @@ interface GigabitEthernet0/3
 !
 router ospf 1
  router-id 29.2.3.253
+ redistribute bgp 27058 subnets
  network 29.2.3.253 0.0.0.0 area 0
  network 29.2.117.30 0.0.0.0 area 0
  network 29.2.119.0 0.0.0.3 area 0
@@ -1293,6 +1296,7 @@ router bgp 27058
  neighbor 29.2.117.37 soft-reconfiguration inbound
  neighbor 192.168.1.2 remote-as 27071
  neighbor 192.168.1.2 update-source GigabitEthernet0/3
+ neighbor 192.168.1.2 soft-reconfiguration inbound
 !
 ip forward-protocol nd
 !
@@ -1351,7 +1355,7 @@ end</entry>
     <node name="PAFB-C00-CR-02" type="SIMPLE" subtype="IOSv" location="494,550">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:55:18 UTC Tue Jul 12 2016
+! Last configuration change at 12:45:03 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -1442,6 +1446,7 @@ interface GigabitEthernet0/3
 !
 router ospf 1
  router-id 29.2.3.252
+ redistribute bgp 27058 subnets
  network 29.2.3.252 0.0.0.0 area 0
  network 29.2.117.32 0.0.0.3 area 0
  network 29.2.119.0 0.0.0.3 area 0
@@ -1468,6 +1473,7 @@ router bgp 27058
  neighbor 29.2.117.37 soft-reconfiguration inbound
  neighbor 192.168.2.2 remote-as 27071
  neighbor 192.168.2.2 update-source GigabitEthernet0/3
+ neighbor 192.168.2.2 soft-reconfiguration inbound
 !
 ip forward-protocol nd
 !
@@ -1526,7 +1532,7 @@ end</entry>
     <node name="PAFB-MSCI-IR-01" type="SIMPLE" subtype="IOSv" location="380,493">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:55:57 UTC Tue Jul 12 2016
+! Last configuration change at 12:46:33 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2247,7 +2253,7 @@ call-home
     <node name="CMAF-MSCI-OR-01" type="SIMPLE" subtype="IOSv" location="821,167">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:28:33 UTC Tue Jul 12 2016
+! Last configuration change at 12:08:09 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2374,7 +2380,7 @@ interface GigabitEthernet0/3
  media-type rj45
 !
 interface GigabitEthernet0/3.20
- description &lt;== Outer Router to Firewall - SIPR Side ==&gt;
+ description &lt;== Outer Router to Firewall - CSNI Side ==&gt;
  encapsulation dot1Q 20
  ip vrf forwarding CSNI
  ip address 29.3.117.9 255.255.255.252
@@ -2398,6 +2404,7 @@ interface GigabitEthernet0/3.21
 router ospf 1002 vrf CSNI
  router-id 29.3.117.37
  capability vrf-lite
+ redistribute bgp 27071 metric 500 subnets route-map CSNI-ROUTES-INTO-OSPF
  network 29.3.117.9 0.0.0.0 area 0
  network 29.3.117.37 0.0.0.0 area 0
 !
@@ -2476,7 +2483,8 @@ ip forward-protocol nd
 !
 no ip http server
 no ip http secure-server
-ip nat inside source static 29.3.117.58 100.100.255.193 vrf CSNI
+ip nat inside source static 29.2.117.58 100.100.255.193 vrf CSNI
+ip nat inside source static 29.3.117.58 100.100.255.194 vrf CSNI
 ip route vrf CSNI 100.100.255.192 255.255.255.192 Null0 name US_NAT_POOL_01
 !
 !
@@ -2493,6 +2501,7 @@ route-map CSNI-ROUTES-INTO-OSPF permit 10
  match route-type external
 !
 route-map EGRESS-SECONDARY-PATH permit 10
+ set local-preference 100
  set as-path prepend 65535 65535 65535 65535
 !
 route-map ADVERTISE-NATPOOL-SECONDARY permit 10
@@ -2617,7 +2626,7 @@ write_files:
     <node name="CMAF-MSCI-CR-01" type="SIMPLE" subtype="IOSv" location="820,660">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:52:27 UTC Tue Jul 12 2016
+! Last configuration change at 12:41:57 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -2696,6 +2705,7 @@ interface GigabitEthernet0/1
  media-type rj45
 !
 interface GigabitEthernet0/2
+ description &lt;== iBGP connection to CMAF-MSCI-CR-02 ==&gt;
  ip address 29.3.119.1 255.255.255.252
  duplex auto
  speed auto
@@ -2709,6 +2719,7 @@ interface GigabitEthernet0/3
 !
 router ospf 1
  router-id 29.3.3.253
+ redistribute bgp 27071 subnets
  network 29.3.3.253 0.0.0.0 area 0
  network 29.3.117.30 0.0.0.0 area 0
  network 29.3.119.0 0.0.0.3 area 0
@@ -2722,18 +2733,22 @@ router bgp 27071
  neighbor 29.3.3.252 password 7 0040421616644F030C345E4B
  neighbor 29.3.3.252 update-source Loopback1
  neighbor 29.3.3.252 route-reflector-client
+ neighbor 29.3.3.252 next-hop-self
  neighbor 29.3.117.36 remote-as 27071
  neighbor 29.3.117.36 description &lt;== iBGP Connection to CMAF-MSCI-0R-01 ==&gt;
  neighbor 29.3.117.36 update-source Loopback1
  neighbor 29.3.117.36 timers 10 30
+ neighbor 29.3.117.36 next-hop-self
  neighbor 29.3.117.36 soft-reconfiguration inbound
  neighbor 29.3.117.37 remote-as 27071
  neighbor 29.3.117.37 description &lt;== iBGP Connection to CMAF-MSCI-0R-01 ==&gt;
  neighbor 29.3.117.37 update-source Loopback1
  neighbor 29.3.117.37 timers 10 30
+ neighbor 29.3.117.37 next-hop-self
  neighbor 29.3.117.37 soft-reconfiguration inbound
  neighbor 192.168.1.1 remote-as 27058
  neighbor 192.168.1.1 update-source GigabitEthernet0/3
+ neighbor 192.168.1.1 soft-reconfiguration inbound
 !
 ip forward-protocol nd
 !
@@ -2792,7 +2807,7 @@ end</entry>
     <node name="CMAF-MSCI-OS-01" type="SIMPLE" subtype="IOSvL2" location="820,237">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:09:12 UTC Tue Jul 12 2016
+! Last configuration change at 11:41:20 UTC Tue Jul 12 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -2934,7 +2949,7 @@ end</entry>
     <node name="NEN-CMAF-OR-01" type="SIMPLE" subtype="IOSv" location="1018,167">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 10:01:07 UTC Tue Jul 12 2016
+! Last configuration change at 12:53:17 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3083,7 +3098,7 @@ end</entry>
     <node name="CMAF-MSCI-IS-01" type="SIMPLE" subtype="IOSvL2" location="820,424">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:02:54 UTC Tue Jul 12 2016
+! Last configuration change at 11:32:39 UTC Tue Jul 12 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -3431,7 +3446,7 @@ call-home
     <node name="CMAF-MSCI-IR-01" type="SIMPLE" subtype="IOSv" location="821,487">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:56:20 UTC Tue Jul 12 2016
+! Last configuration change at 12:47:20 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3612,7 +3627,7 @@ end</entry>
     <node name="CMAF-MSCI-CR-02" type="SIMPLE" subtype="IOSv" location="704,544">
         <extensions>
             <entry key="config" type="String">!
-! Last configuration change at 09:55:19 UTC Tue Jul 12 2016
+! Last configuration change at 12:45:56 UTC Tue Jul 12 2016
 !
 version 15.6
 service timestamps debug datetime msec
@@ -3690,6 +3705,7 @@ interface GigabitEthernet0/1
  media-type rj45
 !
 interface GigabitEthernet0/2
+ description &lt;== iBGP connection to CMAF-C00-CR-01 ==&gt;
  ip address 29.3.119.2 255.255.255.252
  duplex auto
  speed auto
@@ -3703,6 +3719,7 @@ interface GigabitEthernet0/3
 !
 router ospf 1
  router-id 29.3.3.252
+ redistribute bgp 27071 subnets
  network 29.3.3.252 0.0.0.0 area 0
  network 29.3.117.32 0.0.0.3 area 0
  network 29.3.119.0 0.0.0.3 area 0
@@ -3716,18 +3733,22 @@ router bgp 27071
  neighbor 29.3.3.253 password 7 0040421616644F030C345E4B
  neighbor 29.3.3.253 update-source Loopback1
  neighbor 29.3.3.253 route-reflector-client
+ neighbor 29.3.3.253 next-hop-self
  neighbor 29.3.117.36 remote-as 27071
  neighbor 29.3.117.36 description &lt;== iBGP Connection to CMAF-MSCI-0R-01 ==&gt;
  neighbor 29.3.117.36 update-source Loopback1
  neighbor 29.3.117.36 timers 10 30
+ neighbor 29.3.117.36 next-hop-self
  neighbor 29.3.117.36 soft-reconfiguration inbound
  neighbor 29.3.117.37 remote-as 27071
  neighbor 29.3.117.37 description &lt;== iBGP Connection to CMAF-MSCI-0R-01 ==&gt;
  neighbor 29.3.117.37 update-source Loopback1
  neighbor 29.3.117.37 timers 10 30
+ neighbor 29.3.117.37 next-hop-self
  neighbor 29.3.117.37 soft-reconfiguration inbound
  neighbor 192.168.2.1 remote-as 27058
  neighbor 192.168.2.1 update-source GigabitEthernet0/3
+ neighbor 192.168.2.1 soft-reconfiguration inbound
 !
 ip forward-protocol nd
 !
