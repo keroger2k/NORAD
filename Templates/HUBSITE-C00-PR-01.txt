@@ -23,6 +23,7 @@ interface Loopback0
  ip address S1.S2.<CIDR>.<LOOPBACK0> 255.255.255.255
 !
 router bgp <SITE-ASN>
+ network 0.0.0.0 route-map SITE-DEFAULT-IN 
  neighbor S1.S2.<CIDR>.<CR01-LOOPBACK0> remote-as <SITE-ASN>
  neighbor S1.S2.<CIDR>.<CR01-LOOPBACK0> description <== iBGP Connection to CR-01 ==>
  neighbor S1.S2.<CIDR>.<CR01-LOOPBACK0> password <BGP-PASSWORD>
