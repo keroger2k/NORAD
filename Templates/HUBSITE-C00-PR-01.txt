@@ -16,6 +16,8 @@
 !
 hostname <SITE>-C00-PR-01
 !
+track 10 ip sla 1 reachability
+!
 interface Loopback0
  description <== iBGP Loopback Source ==>
  ip address S1.S2.<CIDR>.<LOOPBACK0> 255.255.255.255
@@ -51,8 +53,16 @@ ip community-list expanded SITE_CIDRS permit 100:.*
 !
 ip route S1.S2.<CIDR>.<CR01-LOOPBACK0> 255.255.255.255 S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CR-01-L0
 ip route S1.S2.<CIDR>.<CR02-LOOPBACK0> 255.255.255.255 S1.S2.<CIDR>.<FW-OUTSIDE-IP> name <SITE>-CR-02-L0
+ip route 0.0.0.0 0.0.0.0 <DISA-ROUTER-INTERFACE-IP> name DISA_DEFAULT track 10
+ip route <SLA-ENDPOINT-IP> 255.255.255.255 <DISA-ROUTER-INTERFACE-IP> name TRACKING_DESTINATION
 !
 ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+ip sla 1
+ icmp-echo <SLA-ENDPOINT-IP> source-interface <DISA-INTERFACE-NAME>
+ threshold 500
+ frequency 10
+ip sla schedule 1 life forever start-time now
 !
 route-map SITE-BGP-OUT permit 10
  match community <SITE>_CIDR
